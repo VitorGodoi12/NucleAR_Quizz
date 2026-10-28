@@ -1,0 +1,189 @@
+import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
+import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
+import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
+import 'package:nuclear_quizdefinitivo/utils/validators.dart';
+import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
+
+/// Tela 2b: cadastro com validação (envio simulado).
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
+  bool _hidePassword = true;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    // validate() roda todos os validators; se algum falhar, retorna false.
+    if (!_formKey.currentState!.validate()) return;
+
+    final name = _nameController.text.trim();
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        icon: const Icon(
+          Icons.check_circle_rounded,
+          color: AppColors.success,
+          size: 48,
+        ),
+        title: const Text('Cadastro realizado!'),
+        content: Text(
+          'Olá, $name! Esta é uma conta simulada: nenhum dado foi enviado a um servidor nem será guardado depois que o app for fechado.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Continuar'),
+          ),
+        ],
+      ),
+    );
+
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => HomeScreen(userName: name)),
+      (route) => false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Criar conta')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const GradientHeader(
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.person_add_alt_1_rounded,
+                    size: 52,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Crie sua conta',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    'Preencha os dados para participar das competições.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Color(0xFFCFE0F0)),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.l),
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.l),
+                decoration: appCardDecoration(),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: appInput(
+                          'Nome',
+                          Icons.person_outline_rounded,
+                        ),
+                        validator: (v) => Validators.notEmpty(v, 'o nome'),
+                      ),
+                      const SizedBox(height: AppSpacing.m),
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: appInput('E-mail', Icons.email_outlined),
+                        validator: Validators.email,
+                      ),
+                      const SizedBox(height: AppSpacing.m),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _hidePassword,
+                        decoration: appInput(
+                          'Senha',
+                          Icons.lock_outline_rounded,
+                          suffix: IconButton(
+                            icon: Icon(
+                              _hidePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () =>
+                                setState(() => _hidePassword = !_hidePassword),
+                          ),
+                        ),
+                        validator: Validators.password,
+                      ),
+                      const SizedBox(height: AppSpacing.m),
+                      TextFormField(
+                        controller: _confirmController,
+                        obscureText: _hidePassword,
+                        decoration: appInput(
+                          'Confirmar senha',
+                          Icons.lock_reset_rounded,
+                        ),
+                        validator: (v) {
+                          if (v == null || v.isEmpty) {
+                            return 'Confirme a senha.';
+                          }
+                          if (v != _passwordController.text) {
+                            return 'As senhas não coincidem.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: AppSpacing.l),
+                      ElevatedButton(
+                        onPressed: _submit,
+                        child: const Text('Criar conta'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                );
+              },
+              child: const Text('Já tenho conta. Entrar'),
+            ),
+            const SizedBox(height: AppSpacing.m),
+          ],
+        ),
+      ),
+    );
+  }
+}
