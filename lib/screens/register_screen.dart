@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         title: const Text('Cadastro realizado!'),
         content: Text(
-          'Olá, $name! Esta é uma conta simulada: nenhum dado foi enviado a um servidor nem será guardado depois que o app for fechado.',
+          'Olá, $name! Esta é uma conta demonstrativa: não há autenticação em servidor. Seu nome e progresso ficam salvos somente neste dispositivo.',
         ),
         actions: [
           TextButton(
@@ -57,6 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
 
+    if (!mounted) return;
+    await AppProgress.instance.updateProfile(name: name);
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,

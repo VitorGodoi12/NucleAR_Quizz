@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
 import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -26,9 +27,11 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState!.validate()) {
       final name = Validators.nameFromEmail(_emailController.text);
+      await AppProgress.instance.updateProfile(name: name);
+      if (!mounted) return;
       // Home vira a primeira rota: o botão "voltar" não retorna ao login.
       Navigator.pushAndRemoveUntil(
         context,

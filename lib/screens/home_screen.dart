@@ -736,7 +736,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
     if (result != null && result.isNotEmpty && mounted) {
-      AppProgress.instance.updateProfile(name: result);
+      await AppProgress.instance.updateProfile(name: result);
       setState(() => _displayName = result);
     }
   }
@@ -772,7 +772,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
     if (result != null && mounted) {
-      AppProgress.instance.updateProfile(avatarValue: result);
+      await AppProgress.instance.updateProfile(avatarValue: result);
       setState(() => _avatar = result);
     }
   }

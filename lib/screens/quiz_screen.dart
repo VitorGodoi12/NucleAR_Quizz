@@ -27,6 +27,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _score = 0;
   int _pointsEarnedForCurrent = 0;
   int _secondsLeft = Competition.secondsPerQuestion;
+  bool _isFinishing = false;
   final List<WrongAnswer> _wrongAnswers = [];
   Timer? _timer;
 
@@ -96,7 +97,11 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _next() {
+    if (!_answered || _isFinishing) return;
+
     if (_isLast) {
+      // Evita contabilizar a tentativa novamente durante a troca de rota.
+      _isFinishing = true;
       AppProgress.instance.recordQuiz(
         topicId: widget.competition.id,
         correct: _correctCount,

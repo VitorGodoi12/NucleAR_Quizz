@@ -62,11 +62,15 @@ class AppProgress extends ChangeNotifier {
     }
   }
 
-  void updateProfile({String? name, String? avatarValue, String? theme}) {
+  Future<void> updateProfile({
+    String? name,
+    String? avatarValue,
+    String? theme,
+  }) async {
     if (name != null) displayName = name;
     if (avatarValue != null) avatar = avatarValue;
     if (theme != null) themeMode = theme;
-    _save();
+    await _save();
   }
 
   void recordQuiz({
