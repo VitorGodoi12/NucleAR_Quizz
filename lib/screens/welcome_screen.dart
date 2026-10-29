@@ -53,17 +53,16 @@ class WelcomeScreen extends StatelessWidget {
                                 color: Color(0x2612A9C9),
                                 shape: BoxShape.circle,
                               ),
-                              child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.cyan,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  Icons.science_rounded,
-                                  size: 56,
-                                  color: Colors.white,
-                                ),
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: 112,
+                                height: 112,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                      Icons.science_rounded,
+                                      size: 72,
+                                      color: Colors.white,
+                                    ),
                               ),
                             ),
                           ),
