@@ -33,6 +33,21 @@ class TopicDetailScreen extends StatelessWidget {
             'Todo procedimento precisa ter uma justificativa médica e seguir protocolos de proteção radiológica. A equipe considera os benefícios esperados, controla a exposição e orienta o paciente sobre os cuidados necessários. Radiação não é sinônimo automático de perigo: o risco depende, entre outros fatores, do tipo de radiação, da dose e da forma de exposição.',
             Icons.shield_rounded,
           ),
+          _LearningSection(
+            'Radiofármacos e meia-vida',
+            'Radiofármacos são medicamentos que contêm um radioisótopo. Cada um é escolhido pelo comportamento no corpo e pelo tempo que leva para perder atividade, chamado de meia-vida. O tecnécio-99m, usado em cintilografias, emite radiação gama detectável e tem meia-vida de cerca de 6 horas. O iodo-131 é absorvido pela tireoide e pode ser usado no tratamento de hipertireoidismo e de alguns tipos de câncer dessa glândula. Meia-vida curta ajuda a reduzir a exposição depois do exame.',
+            Icons.science_rounded,
+          ),
+          _LearningSection(
+            'Esterilização por radiação',
+            'Seringas, luvas, gazes e outros materiais descartáveis podem ser esterilizados com radiação gama ou feixes de elétrons já dentro da embalagem. A radiação elimina bactérias e vírus sem aquecer o produto, o que é ideal para itens sensíveis ao calor. Depois do processo, os materiais não ficam radioativos e seguem para uso normal.',
+            Icons.sanitizer_rounded,
+          ),
+          _LearningSection(
+            'Tempo, distância e blindagem',
+            'Quem trabalha com radiação aplica três ideias básicas: reduzir o tempo de exposição, aumentar a distância da fonte e usar blindagem adequada, como paredes e aventais de chumbo. Dosímetros individuais registram a dose recebida, e as equipes seguem limites e protocolos de segurança. Esses cuidados valem na medicina, na indústria e na pesquisa.',
+            Icons.security_rounded,
+          ),
         ];
       case 'agricultura':
         return const [
@@ -55,6 +70,16 @@ class TopicDetailScreen extends StatelessWidget {
             'Irradiação de alimentos',
             'A irradiação utiliza energia para reduzir microrganismos ou insetos e pode atrasar alguns processos de deterioração. Ela é aplicada sob regras e doses estabelecidas para cada finalidade. O alimento irradiado não se torna automaticamente radioativo: o processo transfere energia, não adiciona uma fonte radioativa ao alimento. A irradiação também não substitui higiene, armazenamento adequado nem boas práticas de produção.',
             Icons.grain_rounded,
+          ),
+          _LearningSection(
+            'Melhoramento de plantas por mutação',
+            'A radiação pode provocar mutações aleatórias no material genético de sementes e plantas. A maioria não traz vantagem, mas algumas geram características desejáveis, como maior tolerância à seca ou a doenças. Os pesquisadores selecionam as melhores plantas e as cruzam ao longo de várias gerações. Esse método não é o mesmo que inserir genes de outras espécies.',
+            Icons.spa_rounded,
+          ),
+          _LearningSection(
+            'Pesquisa nuclear no campo brasileiro',
+            'No Brasil, instituições como o Centro de Energia Nuclear na Agricultura (CENA/USP), em Piracicaba (SP), usam isótopos e outras técnicas nucleares para estudar solo, plantas, água e alimentos. Os resultados ajudam a entender como usar melhor fertilizantes e água, e a produzir alimentos com mais eficiência e menor impacto ambiental.',
+            Icons.biotech_rounded,
           ),
         ];
       case 'industria':
@@ -79,6 +104,16 @@ class TopicDetailScreen extends StatelessWidget {
             'Fontes de radiação industrial exigem procedimentos rigorosos, equipamentos adequados, sinalização, treinamento e controle de acesso. A atividade é realizada por profissionais qualificados, seguindo normas de proteção radiológica. O benefício da inspeção depende de usar o método correto e interpretar os resultados de forma técnica.',
             Icons.verified_user_rounded,
           ),
+          _LearningSection(
+            'Detectores de fumaça',
+            'Detectores de fumaça do tipo iônico possuem uma câmara com uma quantidade muito pequena de amerício-241. A radiação ioniza o ar dentro da câmara e gera uma corrente elétrica fraca. Quando a fumaça entra, a corrente muda e o alarme dispara. A fonte fica selada e protegida, e o aparelho não deve ser aberto nem descartado de forma inadequada.',
+            Icons.smoke_free_rounded,
+          ),
+          _LearningSection(
+            'Modificando materiais com radiação',
+            'Feixes de elétrons e outras radiações podem alterar a estrutura de polímeros, criando ligações entre as cadeias do material. Isso torna isolantes de cabos elétricos, tubos e embalagens mais resistentes ao calor e ao desgaste. O material tratado não fica radioativo.',
+            Icons.cable_rounded,
+          ),
         ];
       default:
         return const [
@@ -101,6 +136,21 @@ class TopicDetailScreen extends StatelessWidget {
             'Benefícios e responsabilidades',
             'Durante a geração elétrica, a usina não queima carvão ou gás para produzir calor e, por isso, suas emissões diretas de dióxido de carbono durante a operação são baixas. Mesmo assim, a energia nuclear exige planejamento, manutenção, preparação para emergências e gestão de resíduos radioativos. Avaliar essa fonte de energia significa considerar tanto sua contribuição para o fornecimento elétrico quanto seus custos, impactos e responsabilidades de longo prazo.',
             Icons.balance_rounded,
+          ),
+          _LearningSection(
+            'Controle e camadas de segurança',
+            'O reator é projetado com várias camadas de proteção. Barras de controle, feitas de materiais que absorvem nêutrons, são inseridas ou retiradas do núcleo para regular a reação em cadeia. Sistemas de refrigeração removem o calor, e barreiras sucessivas, como o vaso de pressão e o prédio de contenção, ajudam a conter materiais radioativos.',
+            Icons.tune_rounded,
+          ),
+          _LearningSection(
+            'Programa Nuclear da Marinha',
+            'Conduzido pelo CTMSP desde 1979, o Programa Nuclear da Marinha busca dominar tecnologias do ciclo do combustível nuclear e de plantas de geração de energia elétrica. Esse conhecimento fortalece a capacitação científica e industrial do país. A Amazul, empresa pública ligada ao Ministério da Defesa, atua em apoio a esses projetos.',
+            Icons.sailing_rounded,
+          ),
+          _LearningSection(
+            'Angra 1 e Angra 2',
+            'As usinas nucleares Angra 1 e Angra 2 ficam em Angra dos Reis (RJ) e fornecem eletricidade ao sistema elétrico brasileiro. O princípio é o mesmo explicado acima: fissão, vapor, turbina e gerador. A operação segue regras de segurança, fiscalização por órgãos reguladores e monitoramento ambiental.',
+            Icons.location_city_rounded,
           ),
         ];
     }
@@ -214,7 +264,7 @@ class TopicDetailScreen extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          '${_learningSections.length} partes para estudar • cerca de 3–5 minutos de leitura',
+                          '${_learningSections.length} partes para estudar • cerca de 4–6 minutos de leitura',
                           style: TextStyle(
                             color: color,
                             fontWeight: FontWeight.w700,
