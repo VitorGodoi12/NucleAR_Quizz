@@ -8,19 +8,46 @@ mixin _HomeQuizTab on _HomeScreenState {
       children: [
         const SectionTitle(
           title: 'Escolha seu desafio',
-          subtitle: 'Todas as competições estão liberadas para jogar',
+          subtitle: '12 perguntas por tema, 6 por partida. Treine sem cronômetro quando quiser.',
         ),
         const SizedBox(height: 14),
         for (final competition in _competitions)
-          AnimatedBuilder(
-            animation: _progress,
-            builder: (context, _) => CompetitionCard(
-              competition: competition,
-              lastScore: _progress.topicLastScore[competition.id],
-              bestScore: _progress.topicBestScore[competition.id],
-              onParticipate: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: competition),
-              onLeaderboard: () => Navigator.pushNamed(context, AppRoutes.leaderboard, arguments: LeaderboardRouteArgs(competition: competition)),
-            ),
+          Column(
+            children: [
+              AnimatedBuilder(
+                animation: _progress,
+                builder: (context, _) => CompetitionCard(
+                  competition: competition,
+                  lastScore: _progress.topicLastScore[competition.id],
+                  bestScore: _progress.topicBestScore[competition.id],
+                  onParticipate: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.quiz,
+                    arguments: competition,
+                  ),
+                  onLeaderboard: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.leaderboard,
+                    arguments: LeaderboardRouteArgs(competition: competition),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.quiz,
+                    arguments: QuizRouteArgs(
+                      competition: competition,
+                      trainingMode: true,
+                    ),
+                  ),
+                  icon: const Icon(Icons.school_outlined),
+                  label: const Text('Treinar sem cronômetro'),
+                ),
+              ),
+            ],
           ),
         const SizedBox(height: 8),
         OutlinedButton.icon(

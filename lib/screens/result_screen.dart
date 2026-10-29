@@ -11,6 +11,7 @@ import 'package:nuclear_quizdefinitivo/widgets/section_title.dart';
 /// Tela 5: resultado e aprendizado (explicações das respostas incorretas).
 class ResultScreen extends StatelessWidget {
   final Competition competition;
+  final Competition? sourceCompetition;
   final int correctCount;
   final int score;
   final List<WrongAnswer> wrongAnswers;
@@ -21,6 +22,7 @@ class ResultScreen extends StatelessWidget {
     required this.correctCount,
     required this.score,
     required this.wrongAnswers,
+    this.sourceCompetition,
   });
 
   @override
@@ -181,7 +183,7 @@ class ResultScreen extends StatelessWidget {
                     backgroundColor: competition.color,
                   ),
                   // Troca a rota: o botão "voltar" do novo quiz leva à Home.
-                  onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.quiz, arguments: competition),
+                  onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.quiz, arguments: sourceCompetition ?? competition),
                   icon: const Icon(Icons.replay_rounded),
                   label: const Text('Jogar novamente'),
                 ),

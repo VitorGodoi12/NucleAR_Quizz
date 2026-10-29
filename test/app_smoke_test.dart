@@ -23,9 +23,9 @@ void main() {
     }
   });
 
-  test('cada tema tem 6 perguntas', () {
+  test('cada tema tem 12 perguntas', () {
     for (final competition in catalog.competitions) {
-      expect(competition.questions.length, 6, reason: competition.id);
+      expect(competition.questions.length, 12, reason: competition.id);
     }
   });
 

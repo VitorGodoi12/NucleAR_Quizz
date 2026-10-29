@@ -14,8 +14,9 @@ import 'package:nuclear_quizdefinitivo/widgets/answer_option.dart';
 /// Tela 4: quiz. Usa StatefulWidget + setState() para atualizar a interface.
 class QuizScreen extends StatefulWidget {
   final Competition competition;
+  final bool trainingMode;
 
-  const QuizScreen({super.key, required this.competition});
+  const QuizScreen({super.key, required this.competition, this.trainingMode = false});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -73,6 +74,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void _startTimer() {
     _timer?.cancel();
     _secondsLeft = Competition.secondsPerQuestion;
+    if (widget.trainingMode) return;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsLeft <= 1) {
         _confirm(timeout: true);
@@ -122,7 +124,8 @@ class _QuizScreenState extends State<QuizScreen> {
     final isCorrect = chosen == _question.correctIndex;
     // O modo cronometrado dá bônus nos primeiros cinco segundos.
     final pointsEarned = isCorrect
-        ? (_secondsLeft >= Competition.secondsPerQuestion - 5
+        ? (!widget.trainingMode &&
+                  _secondsLeft >= Competition.secondsPerQuestion - 5
               ? Competition.pointsPerCorrect * 2
               : Competition.pointsPerCorrect)
         : 0;
@@ -159,7 +162,7 @@ class _QuizScreenState extends State<QuizScreen> {
         wrongAnswers: _wrongAnswers,
       );
       // Passagem de parâmetros: resultado desta tentativa vai para a tela de resultado.
-      Navigator.pushReplacementNamed(context, AppRoutes.result, arguments: ResultRouteArgs(competition: _sessionCompetition, correctCount: _correctCount, score: _score, wrongAnswers: List.unmodifiable(_wrongAnswers)));
+      Navigator.pushReplacementNamed(context, AppRoutes.result, arguments: ResultRouteArgs(competition: _sessionCompetition, sourceCompetition: widget.competition, correctCount: _correctCount, score: _score, wrongAnswers: List.unmodifiable(_wrongAnswers)));
     } else {
       // Reinicia o cronômetro antes do setState para mostrar o tempo completo
       // junto com a próxima pergunta.
@@ -177,7 +180,7 @@ class _QuizScreenState extends State<QuizScreen> {
     final competition = _sessionCompetition;
     final total = _questions.length;
     final progress = (_currentIndex + (_answered ? 1 : 0)) / total;
-    final lowTime = _secondsLeft <= 5 && !_answered;
+    final lowTime = !widget.trainingMode && _secondsLeft <= 5 && !_answered;
 
     return PopScope(
       canPop: false,
@@ -187,7 +190,7 @@ class _QuizScreenState extends State<QuizScreen> {
       child: Scaffold(
       appBar: AppBar(
         title: Text(
-          competition.title,
+          widget.trainingMode ? '${competition.title} · Treino' : competition.title,
         ),
         backgroundColor: competition.color,
       ),
@@ -221,12 +224,14 @@ class _QuizScreenState extends State<QuizScreen> {
                         ),
                       ),
                       const Spacer(),
-                      _InfoChip(
+                      if (!widget.trainingMode) ...[
+                        _InfoChip(
                           icon: Icons.timer_outlined,
                           label: '${_secondsLeft}s',
                           color: lowTime ? AppColors.error : AppColors.navy,
                         ),
-                      const SizedBox(width: 8),
+                        const SizedBox(width: 8),
+                      ],
                       _InfoChip(
                         icon: Icons.star_rounded,
                         label: '$_score pts',

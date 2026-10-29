@@ -27,7 +27,7 @@ abstract final class AppRoutes {
       topic => TopicDetailScreen(
         competition: _argument<Competition>(settings),
       ),
-      quiz => QuizScreen(competition: _argument<Competition>(settings)),
+      quiz => _quizPage(settings),
       result => _resultPage(settings),
       leaderboard => _leaderboardPage(settings),
       review => const ReviewScreen(),
@@ -43,7 +43,20 @@ abstract final class AppRoutes {
       correctCount: args.correctCount,
       score: args.score,
       wrongAnswers: args.wrongAnswers,
+      sourceCompetition: args.sourceCompetition,
     );
+  }
+
+  static Widget _quizPage(RouteSettings settings) {
+    final argument = settings.arguments;
+    if (argument is QuizRouteArgs) {
+      return QuizScreen(
+        competition: argument.competition,
+        trainingMode: argument.trainingMode,
+      );
+    }
+    if (argument is Competition) return QuizScreen(competition: argument);
+    throw ArgumentError.value(argument, 'settings.arguments', 'Competição inválida para a rota do quiz.');
   }
 
   static Widget _leaderboardPage(RouteSettings settings) {
@@ -71,12 +84,21 @@ class ResultRouteArgs {
     required this.correctCount,
     required this.score,
     required this.wrongAnswers,
+    required this.sourceCompetition,
   });
 
   final Competition competition;
   final int correctCount;
   final int score;
   final List<WrongAnswer> wrongAnswers;
+  final Competition sourceCompetition;
+}
+
+class QuizRouteArgs {
+  const QuizRouteArgs({required this.competition, this.trainingMode = false});
+
+  final Competition competition;
+  final bool trainingMode;
 }
 
 class LeaderboardRouteArgs {

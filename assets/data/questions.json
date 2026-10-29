@@ -65,6 +65,72 @@
       ],
       "correctIndex": 0,
       "explanation": "Tempo, distância e blindagem são os três pilares da proteção radiológica: menos tempo perto da fonte, mais distância e barreiras como chumbo ou concreto reduzem a dose recebida. O dosímetro individual registra a dose e ajuda a manter o trabalho dentro dos limites de segurança."
+    },
+    {
+      "text": "Qual exame de medicina nuclear costuma usar tecnécio-99m para produzir imagens?",
+      "options": [
+        "Cintilografia",
+        "Eletrocardiograma",
+        "Ultrassom Doppler",
+        "Espirometria"
+      ],
+      "correctIndex": 0,
+      "explanation": "O tecnécio-99m é um radioisótopo amplamente usado em radiofármacos para cintilografia. A câmera detecta a radiação emitida e forma imagens funcionais dos órgãos."
+    },
+    {
+      "text": "Como a tomografia por emissão de pósitrons (PET) detecta o sinal do radiofármaco?",
+      "options": [
+        "Detecta ondas sonoras refletidas",
+        "Detecta fótons produzidos após a aniquilação de pósitrons",
+        "Mede apenas a temperatura da pele",
+        "Registra o campo magnético do coração"
+      ],
+      "correctIndex": 1,
+      "explanation": "Na PET, o radioisótopo emite pósitrons. Ao encontrar elétrons, ocorre aniquilação e são produzidos fótons que os detectores registram para reconstruir a distribuição do radiofármaco."
+    },
+    {
+      "text": "O que caracteriza a braquiterapia?",
+      "options": [
+        "A fonte de radiação é colocada dentro ou muito perto da região tratada",
+        "O tratamento usa somente ondas de rádio externas",
+        "A radiação é aplicada sem planejamento médico",
+        "O paciente recebe uma vacina radioativa"
+      ],
+      "correctIndex": 0,
+      "explanation": "Na braquiterapia, fontes radioativas encapsuladas são posicionadas dentro ou próximas ao tumor, permitindo concentrar a dose na área planejada e limitar a exposição de tecidos vizinhos."
+    },
+    {
+      "text": "Por que o planejamento é importante antes da radioterapia?",
+      "options": [
+        "Para direcionar a dose ao alvo e reduzir a exposição dos tecidos saudáveis",
+        "Para dispensar o acompanhamento da equipe clínica",
+        "Para aumentar a dose em todo o corpo",
+        "Para substituir todos os exames de imagem"
+      ],
+      "correctIndex": 0,
+      "explanation": "Imagens e cálculos de planejamento ajudam a equipe a definir a região e a dose do tratamento, buscando atingir o tumor e preservar estruturas saudáveis."
+    },
+    {
+      "text": "A irradiação usada para esterilizar alguns materiais médicos deixa o material radioativo?",
+      "options": [
+        "Sim, sempre deixa radioatividade permanente",
+        "Não; a técnica pode eliminar microrganismos sem tornar o produto radioativo",
+        "Sim, mas apenas se a embalagem for transparente",
+        "Não, porque não envolve energia"
+      ],
+      "correctIndex": 1,
+      "explanation": "A irradiação transfere energia para reduzir microrganismos. Nas aplicações usuais de esterilização, ela não torna os produtos tratados radioativos."
+    },
+    {
+      "text": "Em que situação o iodo-131 pode ser usado na medicina?",
+      "options": [
+        "No tratamento de algumas doenças da tireoide",
+        "Para medir a pressão arterial",
+        "Para substituir anestesia em cirurgias",
+        "Para produzir imagens de ossos por ultrassom"
+      ],
+      "correctIndex": 0,
+      "explanation": "O iodo é concentrado pela tireoide. O iodo-131 pode ser usado sob indicação médica em tratamentos de algumas doenças tireoidianas, com cuidados radiológicos específicos."
     }
   ],
   "agricultura": [
@@ -133,6 +199,72 @@
       ],
       "correctIndex": 3,
       "explanation": "O CENA/USP fica em Piracicaba (SP) e pesquisa o uso de isótopos e de outras técnicas nucleares em solo, plantas, água e alimentos, ajudando a produzir com melhor aproveitamento dos recursos."
+    },
+    {
+      "text": "Como a técnica do inseto estéril ajuda a controlar certas pragas?",
+      "options": [
+        "Libera machos esterilizados que reduzem a reprodução da população",
+        "Aumenta a reprodução de todos os insetos",
+        "Substitui a irrigação por radiação",
+        "Transforma insetos em fertilizantes"
+      ],
+      "correctIndex": 0,
+      "explanation": "Machos esterilizados são liberados para acasalar com fêmeas selvagens sem gerar descendentes. Com liberações planejadas, a população da praga pode diminuir."
+    },
+    {
+      "text": "Para que isótopos estáveis podem ser usados no estudo de plantas?",
+      "options": [
+        "Rastrear a absorção e o aproveitamento de água ou nutrientes",
+        "Alterar o clima de uma plantação",
+        "Substituir a luz solar",
+        "Impedir qualquer mutação natural"
+      ],
+      "correctIndex": 0,
+      "explanation": "Isótopos estáveis, como nitrogênio-15, funcionam como marcadores em estudos para acompanhar a absorção de nutrientes e a eficiência de práticas agrícolas."
+    },
+    {
+      "text": "O que pode ser avaliado com técnicas nucleares no solo?",
+      "options": [
+        "A movimentação da água e o aproveitamento de nutrientes",
+        "A cor das folhas em uma fotografia",
+        "A velocidade do vento em outro continente",
+        "O preço de venda da colheita"
+      ],
+      "correctIndex": 0,
+      "explanation": "Traçadores isotópicos podem ajudar pesquisadores a estudar a movimentação da água e o destino de nutrientes no sistema solo-planta."
+    },
+    {
+      "text": "Qual é um possível objetivo da irradiação de alimentos?",
+      "options": [
+        "Reduzir microrganismos e insetos e ajudar a prolongar a conservação",
+        "Adicionar conservantes químicos automaticamente",
+        "Aumentar o teor de água do alimento",
+        "Tornar todo alimento estéril para sempre"
+      ],
+      "correctIndex": 0,
+      "explanation": "A irradiação controlada pode reduzir microrganismos e pragas e retardar alguns processos de deterioração. Ela não substitui boas práticas de higiene e armazenamento."
+    },
+    {
+      "text": "Como a irradiação pode ajudar no melhoramento de plantas?",
+      "options": [
+        "Pode induzir variações que são avaliadas em programas de melhoramento",
+        "Escolhe automaticamente a planta mais produtiva sem testes",
+        "Remove todos os genes de uma cultura",
+        "Faz as sementes crescerem sem água"
+      ],
+      "correctIndex": 0,
+      "explanation": "Radiação pode induzir mutações; pesquisadores então selecionam e avaliam as variações que apresentam características desejáveis. O processo não garante sozinho uma variedade melhor."
+    },
+    {
+      "text": "Por que pesquisadores usam nitrogênio-15 em estudos agrícolas?",
+      "options": [
+        "Para acompanhar o destino do nitrogênio aplicado no cultivo",
+        "Para colorir o fertilizante",
+        "Para substituir o nitrogênio do ar por oxigênio",
+        "Para medir a acidez da chuva diretamente"
+      ],
+      "correctIndex": 0,
+      "explanation": "O nitrogênio-15 é um marcador isotópico estável que permite estimar quanto do nitrogênio aplicado foi absorvido pelas plantas ou permaneceu no solo."
     }
   ],
   "industria": [
@@ -201,6 +333,72 @@
       ],
       "correctIndex": 1,
       "explanation": "Assim como uma radiografia médica mostra o interior do corpo, a radiografia industrial mostra o interior de soldas e peças. Diferenças na passagem da radiação revelam trincas, poros e falhas sem cortar o material, por isso o ensaio é chamado de não destrutivo."
+    },
+    {
+      "text": "O que medidores nucleares podem controlar em uma linha industrial?",
+      "options": [
+        "Espessura, densidade ou nível de materiais",
+        "A opinião dos consumidores",
+        "A cor da luz do ambiente",
+        "O número de funcionários no turno"
+      ],
+      "correctIndex": 0,
+      "explanation": "Medidores nucleares avaliam como a radiação atravessa ou interage com materiais. Isso permite monitorar grandezas como espessura, densidade e nível sem contato direto."
+    },
+    {
+      "text": "Como um traçador radioativo pode ajudar a localizar um vazamento em tubulação?",
+      "options": [
+        "Acompanhando o percurso do traçador e detectando onde ele aparece fora do sistema",
+        "Aumentando a pressão até a tubulação romper",
+        "Pintando a tubulação com tinta fluorescente",
+        "Desligando todos os sensores da fábrica"
+      ],
+      "correctIndex": 0,
+      "explanation": "Em uma inspeção controlada, um traçador pode ser acompanhado por detectores. O sinal fora do trajeto esperado ajuda a localizar uma fuga."
+    },
+    {
+      "text": "Por que a radiografia industrial é chamada de ensaio não destrutivo?",
+      "options": [
+        "Porque inspeciona o interior da peça sem precisar cortá-la",
+        "Porque não utiliza nenhum equipamento",
+        "Porque elimina qualquer falha da peça",
+        "Porque funciona apenas em objetos transparentes"
+      ],
+      "correctIndex": 0,
+      "explanation": "A radiografia usa diferenças de atenuação da radiação para revelar estruturas internas. A peça pode ser avaliada sem ser destruída durante o ensaio."
+    },
+    {
+      "text": "Qual é uma medida essencial ao usar uma fonte radioativa em inspeções industriais?",
+      "options": [
+        "Controlar acesso, tempo, distância e blindagem conforme o procedimento de radioproteção",
+        "Permitir que qualquer pessoa se aproxime da fonte",
+        "Guardar a fonte sem inventário",
+        "Retirar os avisos da área controlada"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fontes industriais exigem procedimentos de radioproteção, equipe habilitada, controle de área e monitoração, além de armazenamento seguro e inventariado."
+    },
+    {
+      "text": "O que a análise por ativação com nêutrons pode ajudar a identificar?",
+      "options": [
+        "A composição elementar de uma amostra",
+        "A forma de uma peça por ultrassom",
+        "A idade de qualquer objeto com precisão absoluta",
+        "A resistência elétrica sem medir a amostra"
+      ],
+      "correctIndex": 0,
+      "explanation": "A análise por ativação com nêutrons identifica elementos pela radiação característica emitida após a irradiação da amostra, em instalações e condições controladas."
+    },
+    {
+      "text": "Por que a radiografia industrial exige uma área isolada durante a exposição?",
+      "options": [
+        "Para evitar que pessoas não envolvidas recebam exposição desnecessária",
+        "Para impedir que a peça esfrie",
+        "Para aumentar o tamanho da solda",
+        "Para melhorar a cor da imagem"
+      ],
+      "correctIndex": 0,
+      "explanation": "A fonte pode emitir radiação ionizante durante a exposição. Isolar e sinalizar a área mantém trabalhadores e público fora da região controlada."
     }
   ],
   "energia": [
@@ -269,6 +467,72 @@
       ],
       "correctIndex": 3,
       "explanation": "As barras de controle contêm materiais que absorvem nêutrons. Ao serem inseridas ou retiradas do núcleo, regulam quantas fissões ocorrem e, portanto, o calor produzido. Junto com refrigeração e barreiras de contenção, formam as camadas de segurança do reator."
+    },
+    {
+      "text": "O que acontece na fissão nuclear usada em reatores?",
+      "options": [
+        "Um núcleo pesado se divide em núcleos menores e libera energia",
+        "Dois átomos de água viram eletricidade diretamente",
+        "O combustível queima como gasolina",
+        "A turbina divide os átomos do ar"
+      ],
+      "correctIndex": 0,
+      "explanation": "Na fissão, certos núcleos pesados, como urânio-235, se dividem após capturar nêutrons. O processo libera energia e mais nêutrons, que podem sustentar uma reação em cadeia controlada."
+    },
+    {
+      "text": "Qual é a função do sistema de refrigeração de um reator?",
+      "options": [
+        "Remover e transportar o calor do núcleo",
+        "Aumentar a quantidade de combustível no núcleo",
+        "Armazenar a eletricidade produzida",
+        "Eliminar a necessidade de barreiras de segurança"
+      ],
+      "correctIndex": 0,
+      "explanation": "O refrigerante remove o calor produzido no núcleo e o transfere para outros sistemas. O projeto inclui sistemas redundantes e barreiras de segurança."
+    },
+    {
+      "text": "Como o calor de uma usina nuclear costuma gerar eletricidade?",
+      "options": [
+        "Produz vapor que movimenta uma turbina ligada a um gerador",
+        "Carrega baterias dentro do reator",
+        "Transforma nêutrons diretamente em corrente nos cabos",
+        "Move as pás da turbina com a pressão do vento"
+      ],
+      "correctIndex": 0,
+      "explanation": "O calor é usado para produzir vapor, que movimenta uma turbina acoplada a um gerador elétrico. O ciclo exato depende do tipo de usina."
+    },
+    {
+      "text": "Quais são as duas unidades de Angra que já iniciaram operação comercial?",
+      "options": [
+        "Angra 1 e Angra 2",
+        "Angra 1 e Angra 3",
+        "Angra 2 e Angra 3",
+        "Somente Angra 3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Angra 1 e Angra 2 já iniciaram operação comercial. Angra 3 ainda não iniciou operação comercial."
+    },
+    {
+      "text": "Uma usina nuclear em operação gera eletricidade pela queima de combustível com chama?",
+      "options": [
+        "Sim, queima combustível como uma termelétrica a carvão",
+        "Não; o calor vem da fissão nuclear controlada",
+        "Sim, queima urânio em uma chama dentro do reator",
+        "Não; usa apenas painéis solares"
+      ],
+      "correctIndex": 1,
+      "explanation": "Em um reator nuclear, a energia térmica vem da fissão controlada. Não há combustão do combustível nuclear como em uma usina a carvão ou gás."
+    },
+    {
+      "text": "O que deve ser feito com o combustível nuclear usado?",
+      "options": [
+        "Gerenciado e armazenado com segurança conforme normas e etapas específicas",
+        "Descartado no lixo doméstico",
+        "Diluído em rios para reduzir a atividade",
+        "Deixado ao ar livre até desaparecer"
+      ],
+      "correctIndex": 0,
+      "explanation": "O combustível usado continua exigindo controle e proteção. Ele passa por armazenamento e gestão especializados, obedecendo requisitos de segurança e regulamentação."
     }
   ]
 }
