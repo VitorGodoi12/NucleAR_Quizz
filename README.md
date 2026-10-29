@@ -54,7 +54,7 @@ A navegação usa `Navigator` (`push`, `pop`, `pushReplacement`, `pushAndRemoveU
 
 1. Instale o [Flutter SDK](https://docs.flutter.dev/get-started/install) e as extensões **Flutter** e **Dart** no VS Code.
 2. Abra a pasta do projeto no VS Code.
-3. Execute `flutter pub get) pelo terminal integrado.
+3. Execute `flutter pub get` pelo terminal integrado.
 4. Selecione um dispositivo ou navegador na barra inferior e pressione **F5** (ou escolha **Run > Start Debugging**).
 
 ## Executar pelo CMD
