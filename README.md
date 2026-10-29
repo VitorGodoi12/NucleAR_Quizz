@@ -2,21 +2,47 @@
 
 Aplicativo educativo em Flutter e Dart que apresenta aplicações da tecnologia nuclear na medicina, agricultura, indústria e geração de energia. O conteúdo é organizado por temas e complementado com quizzes, explicações das respostas e acompanhamento de progresso.
 
-## Funcionalidades
+## Integrantes da equipe
 
-- Tela de boas-vindas, login demonstrativo e cadastro validado.
-- Navegação entre início, aprendizagem, quiz, estatísticas e perfil.
-- Conteúdos e detalhes para quatro temas relacionados à tecnologia nuclear.
-- Quizzes com cronômetro, pontuação, feedback e explicações.
-- Progresso, ranking demonstrativo e revisão de questões incorretas.
-- Dados de progresso e perfil salvos localmente no dispositivo.
+> **PREENCHER antes da entrega:** nome completo e RM de cada integrante.
 
-Login, cadastro e ranking são demonstrativos. Esta versão não possui backend nem sincroniza dados entre dispositivos.
+| Nome | RM |
+| ---- | -- |
+| [PREENCHER] | [PREENCHER] |
+| [PREENCHER] | [PREENCHER] |
+| [PREENCHER] | [PREENCHER] |
 
-## Equipe e parceiro
+## Empresa / parceiro
 
-- Integrantes e RMs: preencher com os dados da equipe antes da entrega.
-- Parceiro: CTMSP / Amazul.
+CTMSP / Amazul (Challenge FIAP 2026).
+
+## Descrição resumida da solução
+
+O usuário se cadastra (ou entra), estuda um tema na aba **Aprender**, responde ao quiz com cronômetro de 30 s por pergunta, recebe explicação nas respostas incorretas, acumula pontos, acompanha estatísticas, revisa questões erradas e compara sua pontuação no ranking. Login, cadastro e ranking são demonstrativos: a versão não possui backend nem sincroniza dados entre dispositivos (os dados ficam salvos localmente com `shared_preferences`).
+
+## Telas e navegação
+
+| # | Tela | Como se chega |
+| - | ---- | ------------- |
+| 1 | Boas-vindas | Abertura do app |
+| 2 | Login | Boas-vindas → *Entrar* |
+| 3 | Cadastro | Boas-vindas → *Cadastrar-se* (formulário validado + Dialog) |
+| 4 | Home (abas Início, Aprender, Quiz, Estatísticas, Perfil) | Login/Cadastro |
+| 5 | Detalhe do tema | Home → Início/Aprender → tema |
+| 6 | Quiz | Home → Quiz → *Participar* ou Detalhe do tema |
+| 7 | Resultado | Fim do quiz (recebe pontos, acertos e erros por parâmetro) |
+| 8 | Placar | Home → Quiz → *Placar* ou Resultado |
+| 9 | Revisão de questões | Home → Estatísticas → *Abrir revisão* |
+
+A navegação usa `Navigator` (`push`, `pop`, `pushReplacement`, `pushAndRemoveUntil` e `popUntil`) com passagem de parâmetros pelos construtores das telas.
+
+## Requisitos da Sprint atendidos
+
+- **Navegação entre telas:** 9 telas conectadas, com avanço e retorno e passagem de parâmetros (`Competition`, `userName`, `WrongAnswer`).
+- **Protótipo visual funcional:** tema único (`lib/theme/app_theme.dart`) com cores, espaçamentos e componentes reutilizáveis; uso de `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`; dados mockados.
+- **Placar:** ranking geral ou por tema (filtro por chips), pódio com avatares, posição real do usuário, quanto falta para subir de posição e botão para jogar o quiz do tema.
+- **Gerenciamento de estado:** `StatefulWidget` + `setState()` no quiz (cronômetro, resposta selecionada, pontuação), nas abas da Home, na escolha de avatar e na visibilidade da senha.
+- **Formulário e validação:** cadastro e login com `Form`, `GlobalKey<FormState>`, `TextFormField`, validadores (`lib/utils/validators.dart`) e resposta ao usuário por `SnackBar` e `AlertDialog`.
 
 ## Tecnologias
 
@@ -44,4 +70,8 @@ flutter test
 
 ## Vídeo da demonstração
 
-Adicionar o link do vídeo narrado no YouTube como “não listado”. A demonstração deve apresentar a execução em emulador ou dispositivo físico, todas as telas, navegação, formulário e validação e a atualização de estado. Duração máxima indicada no enunciado: 5 minutos.
+> **PREENCHER antes da entrega:** link do vídeo no YouTube publicado como **não listado**.
+
+Link: [PREENCHER]
+
+O vídeo deve mostrar a execução em emulador ou dispositivo físico, todas as telas, a navegação, o formulário com validação e a atualização de estado (duração máxima indicada no enunciado: 5 minutos).
