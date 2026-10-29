@@ -4,8 +4,6 @@ Aplicativo educativo em Flutter e Dart que apresenta aplicações da tecnologia 
 
 ## Integrantes da equipe
 
-> **PREENCHER antes da entrega:** nome completo e RM de cada integrante.
-
 | Nome | RM |
 | ---- | -- |
 | Vitor Costa de Godoi | 568448 |
