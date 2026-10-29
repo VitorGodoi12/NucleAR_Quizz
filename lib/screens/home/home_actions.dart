@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeActions on _HomeScreenState {
+mixin _HomeActions on _HomeScreenStateBase {
   void _openRandomQuiz() {
     final competition = _competitions[Random().nextInt(
       _competitions.length,

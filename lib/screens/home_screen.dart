@@ -4,21 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/competition_catalog.dart';
 import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
-import 'home/home_dashboard_tab.dart';
-import 'home/home_learn_tab.dart';
-import 'home/home_quiz_tab.dart';
-import 'home/home_stats_tab.dart';
-import 'home/home_profile_tab.dart';
-import 'home/home_actions.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
-import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/topic_detail_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/welcome_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/competition_card.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
@@ -41,12 +28,38 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with _HomeDashboardTab, _HomeLearnTab, _HomeQuizTab, _HomeStatsTab, _HomeProfileTab, _HomeActions {
+abstract interface class _HomeHost {
+  int get _tab;
+  set _tab(int value);
+  String get _displayName;
+  set _displayName(String value);
+  String get _avatar;
+  set _avatar(String value);
+  AppProgress get _progress;
+  List<Competition> get _competitions;
+  void _openRandomQuiz();
+  void _openGeneralLeaderboard();
+  void _openReview();
+}
+
+abstract class _HomeScreenStateBase extends State<HomeScreen>
+    implements _HomeHost {
   int _tab = 0;
   late String _displayName;
   late String _avatar;
   AppProgress get _progress => context.read<AppProgress>();
-  List<Competition> get _competitions => context.read<CompetitionCatalog>().competitions;
+  List<Competition> get _competitions =>
+      context.read<CompetitionCatalog>().competitions;
+}
+
+class _HomeScreenState extends _HomeScreenStateBase
+    with
+        _HomeDashboardTab,
+        _HomeLearnTab,
+        _HomeQuizTab,
+        _HomeStatsTab,
+        _HomeProfileTab,
+        _HomeActions {
 
   @override
   void initState() {
@@ -160,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> with _HomeDashboardTab, _HomeLe
       ),
     );
   }
+}
 
 class _QuickAction extends StatelessWidget {
   final IconData icon;

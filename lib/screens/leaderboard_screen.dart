@@ -42,7 +42,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Placar')),
+      appBar: AppBar(title: Text('Placar')),
       body: Consumer<AppProgress>(
         builder: (context, progress, _) => _buildBoard(
           context,
@@ -248,7 +248,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         ),
                         onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: topic),
                         icon: const Icon(Icons.play_arrow_rounded),
-                        label: const Text('Jogar este quiz'),
+                        label: Text('Jogar este quiz'),
                       ),
                     ],
                   ],
@@ -313,7 +313,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   ),
                 ),
               const SizedBox(height: AppSpacing.s),
-              const Text(
+              Text(
                 'Sua pontuação é real e salva neste dispositivo. Os demais participantes são exemplos; para um ranking compartilhado entre pessoas, é necessário conectar um servidor.',
                 textAlign: TextAlign.center,
                 style: TextStyle(

@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Entrar')),
+      appBar: AppBar(title: Text('Entrar')),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -112,10 +112,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: AppSpacing.l),
                       ElevatedButton(
                         onPressed: _submit,
-                        child: const Text('Entrar'),
+                        child: Text('Entrar'),
                       ),
                       const SizedBox(height: AppSpacing.m),
-                      const Row(
+                      Row(
                         children: [
                           Icon(
                             Icons.info_outline_rounded,
@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, AppRoutes.register);
               },
-              child: const Text('Ainda não tem conta? Cadastre-se'),
+              child: Text('Ainda não tem conta? Cadastre-se'),
             ),
             const SizedBox(height: AppSpacing.m),
           ],

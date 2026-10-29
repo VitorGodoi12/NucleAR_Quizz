@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeLearnTab on _HomeScreenState {
+mixin _HomeLearnTab on _HomeScreenStateBase {
   Widget _buildLearnPage() {
     return ListView(
       physics: const BouncingScrollPhysics(),

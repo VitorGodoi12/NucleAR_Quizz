@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeQuizTab on _HomeScreenState {
+mixin _HomeQuizTab on _HomeScreenStateBase {
   Widget _buildQuizPage() {
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -44,7 +44,7 @@ mixin _HomeQuizTab on _HomeScreenState {
                     ),
                   ),
                   icon: const Icon(Icons.school_outlined),
-                  label: const Text('Treinar sem cronômetro'),
+                  label: Text('Treinar sem cronômetro'),
                 ),
               ),
             ],
@@ -53,7 +53,7 @@ mixin _HomeQuizTab on _HomeScreenState {
         OutlinedButton.icon(
           onPressed: _openGeneralLeaderboard,
           icon: const Icon(Icons.leaderboard_rounded),
-          label: const Text('Abrir ranking geral'),
+          label: Text('Abrir ranking geral'),
         ),
       ],
     );

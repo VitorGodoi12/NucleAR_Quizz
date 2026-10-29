@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeProfileTab on _HomeScreenState {
+mixin _HomeProfileTab on _HomeScreenStateBase {
   Widget _buildAccountPage() {
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -35,7 +35,7 @@ mixin _HomeProfileTab on _HomeScreenState {
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
+              Text(
                 'Explorador(a) NucleAR',
                 style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
@@ -83,18 +83,18 @@ mixin _HomeProfileTab on _HomeScreenState {
               OutlinedButton.icon(
                 onPressed: _editDisplayName,
                 icon: const Icon(Icons.edit_rounded),
-                label: const Text('Alterar nome'),
+                label: Text('Alterar nome'),
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
                 onPressed: _chooseAvatar,
                 icon: const Icon(Icons.face_retouching_natural_rounded),
-                label: const Text('Escolher avatar'),
+                label: Text('Escolher avatar'),
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.dark_mode_outlined),
-                title: const Text('Aparência'),
+                title: Text('Aparência'),
                 subtitle: Text(_progress.themeMode),
                 onTap: _chooseTheme,
               ),
@@ -114,21 +114,21 @@ mixin _HomeProfileTab on _HomeScreenState {
               OutlinedButton.icon(
                 onPressed: () => setState(() => _tab = 3),
                 icon: const Icon(Icons.insights_rounded),
-                label: const Text('Ver minhas estatísticas'),
+                label: Text('Ver minhas estatísticas'),
               ),
               const SizedBox(height: 8),
               TextButton.icon(
                 onPressed: () => Navigator.pushNamed(context, AppRoutes.login),
                 icon: const Icon(Icons.login_rounded),
-                label: const Text('Entrar com outra conta'),
+                label: Text('Entrar com outra conta'),
               ),
               TextButton.icon(
                 onPressed: () => Navigator.pushNamed(context, AppRoutes.register),
                 icon: const Icon(Icons.person_add_alt_1_rounded),
-                label: const Text('Cadastrar nova conta'),
+                label: Text('Cadastrar nova conta'),
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 'Nome, avatar e progresso são salvos localmente neste dispositivo.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 12),
@@ -145,7 +145,7 @@ mixin _HomeProfileTab on _HomeScreenState {
     final result = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Como quer ser chamado(a)?'),
+        title: Text('Como quer ser chamado(a)?'),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -158,11 +158,11 @@ mixin _HomeProfileTab on _HomeScreenState {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+            child: Text('Cancelar'),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Salvar'),
+            child: Text('Salvar'),
           ),
         ],
       ),
@@ -213,7 +213,7 @@ mixin _HomeProfileTab on _HomeScreenState {
     final selected = await showDialog<String>(
       context: context,
       builder: (dialogContext) => SimpleDialog(
-        title: const Text('Aparência do aplicativo'),
+        title: Text('Aparência do aplicativo'),
         children: [
           for (final mode in ['Sistema', 'Claro', 'Escuro'])
             RadioListTile<String>(

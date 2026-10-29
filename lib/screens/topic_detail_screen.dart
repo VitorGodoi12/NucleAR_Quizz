@@ -234,7 +234,7 @@ class TopicDetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Leia e aprenda',
                   style: TextStyle(
                     fontSize: 23,
@@ -243,7 +243,7 @@ class TopicDetailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 7),
-                const Text(
+                Text(
                   'Antes do desafio, entenda os conceitos. Leia cada parte com calma e depois teste o que aprendeu no quiz.',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -338,7 +338,7 @@ class TopicDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(color: const Color(0xFFD6E8F4)),
                   ),
-                  child: const Row(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
@@ -426,7 +426,7 @@ class TopicDetailScreen extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: competition),
                     icon: const Icon(Icons.play_arrow_rounded),
-                    label: const Text(
+                    label: Text(
                       'Li o conteúdo — iniciar quiz',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
@@ -436,7 +436,7 @@ class TopicDetailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Center(
+                Center(
                   child: Text(
                     'Responda no seu ritmo e aprenda com as explicações.',
                     textAlign: TextAlign.center,

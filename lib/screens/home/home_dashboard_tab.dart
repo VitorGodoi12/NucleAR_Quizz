@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeDashboardTab on _HomeScreenState {
+mixin _HomeDashboardTab on _HomeScreenStateBase {
   Widget _buildTextPage() {
     return ListView(
       physics: const BouncingScrollPhysics(),
@@ -19,7 +19,7 @@ mixin _HomeDashboardTab on _HomeScreenState {
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'A tecnologia nuclear está presente na medicina, na produção de alimentos, na indústria e na geração de energia. Explore os conteúdos em seu ritmo e depois pratique o que aprendeu nos desafios.',
                 style: TextStyle(color: Color(0xFFCFE0F0), height: 1.4),
               ),
@@ -34,7 +34,7 @@ mixin _HomeDashboardTab on _HomeScreenState {
                     label: 'perguntas',
                   ),
                   const SizedBox(width: 10),
-                  const _StatBox(value: '30s', label: 'por questão'),
+                  const _StatBox(value: '20s', label: 'por questão'),
                 ],
               ),
             ],
@@ -82,7 +82,7 @@ mixin _HomeDashboardTab on _HomeScreenState {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Missão diária: responda 10 perguntas para manter seu ritmo de aprendizado.',
                       style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, height: 1.35),
                     ),
@@ -195,7 +195,7 @@ mixin _HomeDashboardTab on _HomeScreenState {
                   color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Row(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.lightbulb_rounded, color: AppColors.blue),
@@ -213,7 +213,7 @@ mixin _HomeDashboardTab on _HomeScreenState {
               ElevatedButton.icon(
                 onPressed: () => setState(() => _tab = 2),
                 icon: const Icon(Icons.play_arrow_rounded),
-                label: const Text('Explorar os quizzes'),
+                label: Text('Explorar os quizzes'),
               ),
             ],
           ),

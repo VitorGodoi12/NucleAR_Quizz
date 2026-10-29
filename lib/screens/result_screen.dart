@@ -45,7 +45,7 @@ class ResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resultado'),
+        title: Text('Resultado'),
         automaticallyImplyLeading: false,
       ),
       body: ListView(
@@ -86,7 +86,7 @@ class ResultScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            const Text(
+                            Text(
                               'pontos',
                               style: TextStyle(color: Color(0xFFCFE0F0)),
                             ),
@@ -152,7 +152,7 @@ class ResultScreen extends StatelessWidget {
                       color: AppColors.successBg,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(Icons.verified_rounded, color: AppColors.success),
                         SizedBox(width: 10),
@@ -185,7 +185,7 @@ class ResultScreen extends StatelessWidget {
                   // Troca a rota: o botão "voltar" do novo quiz leva à Home.
                   onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.quiz, arguments: sourceCompetition ?? competition),
                   icon: const Icon(Icons.replay_rounded),
-                  label: const Text('Jogar novamente'),
+                  label: Text('Jogar novamente'),
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
@@ -193,7 +193,7 @@ class ResultScreen extends StatelessWidget {
                     Navigator.pushNamed(context, AppRoutes.leaderboard, arguments: LeaderboardRouteArgs(competition: competition));
                   },
                   icon: const Icon(Icons.leaderboard_rounded),
-                  label: const Text('Ver placar'),
+                  label: Text('Ver placar'),
                 ),
                 const SizedBox(height: 4),
                 TextButton.icon(
@@ -201,7 +201,7 @@ class ResultScreen extends StatelessWidget {
                   onPressed: () =>
                       Navigator.popUntil(context, (route) => route.isFirst),
                   icon: const Icon(Icons.home_rounded),
-                  label: const Text('Voltar ao início'),
+                  label: Text('Voltar ao início'),
                 ),
               ],
             ),

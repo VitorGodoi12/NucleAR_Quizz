@@ -1,6 +1,6 @@
 part of '../home_screen.dart';
 
-mixin _HomeStatsTab on _HomeScreenState {
+mixin _HomeStatsTab on _HomeScreenStateBase {
   Widget _buildStatsPage() {
     return AnimatedBuilder(
       animation: _progress,
@@ -25,7 +25,7 @@ mixin _HomeStatsTab on _HomeScreenState {
                     size: 34,
                   ),
                   const SizedBox(height: 10),
-                  const Text(
+                  Text(
                     'Seu progresso em números',
                     style: TextStyle(
                       color: Colors.white,
@@ -34,7 +34,7 @@ mixin _HomeStatsTab on _HomeScreenState {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'Cada tentativa ajuda você a aprender um pouco mais.',
                     style: TextStyle(color: Color(0xFFD8E7F5), height: 1.4),
                   ),
@@ -86,7 +86,7 @@ mixin _HomeStatsTab on _HomeScreenState {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'Pratique novamente as perguntas que você errou e releia as explicações.',
                     style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
                   ),
@@ -96,7 +96,7 @@ mixin _HomeStatsTab on _HomeScreenState {
                         ? null
                         : _openReview,
                     icon: const Icon(Icons.menu_book_rounded),
-                    label: const Text('Abrir revisão'),
+                    label: Text('Abrir revisão'),
                   ),
                 ],
               ),
@@ -167,7 +167,7 @@ mixin _HomeStatsTab on _HomeScreenState {
                   color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Text(
+                child: Text(
                   'Suas estatísticas aparecerão aqui depois que você concluir seu primeiro quiz.',
                   style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.4),
                 ),
@@ -176,7 +176,7 @@ mixin _HomeStatsTab on _HomeScreenState {
             OutlinedButton.icon(
               onPressed: () => setState(() => _tab = 4),
               icon: const Icon(Icons.person_outline),
-              label: const Text('Personalizar meu perfil'),
+              label: Text('Personalizar meu perfil'),
             ),
           ],
         );
