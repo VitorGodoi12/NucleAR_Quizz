@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
+import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
+import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/participant.dart';
+import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
 /// Placar local: combina a pontuação real do usuário com participantes fictícios.
+/// Pode ser filtrado por tema (melhor pontuação) ou exibir o ranking geral.
 /// Um ranking compartilhado entre dispositivos exige um backend.
 class LeaderboardScreen extends StatefulWidget {
   final Competition competition;
 
-  const LeaderboardScreen({super.key, required this.competition});
+  /// Quando verdadeiro abre no ranking geral; senão, no tema de [competition].
+  final bool startGeneral;
+
+  const LeaderboardScreen({
+    super.key,
+    required this.competition,
+    this.startGeneral = false,
+  });
 
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
-  bool _showExample = false;
+  /// Tema selecionado; nulo = ranking geral.
+  late String? _topicId = widget.startGeneral ? null : widget.competition.id;
 
   static const _medalColors = [
     AppColors.gold,
@@ -28,105 +39,87 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final released =
-        widget.competition.resultsReleased ||
-        _showExample ||
-        AppProgress.instance.totalPoints > 0;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Placar')),
       body: AnimatedBuilder(
         animation: AppProgress.instance,
-        builder: (context, _) => released ? _buildBoard() : _buildLocked(),
+        builder: (context, _) => _buildBoard(),
       ),
     );
   }
 
-  Widget _buildLocked() {
-    final competition = widget.competition;
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.l),
-        child: Container(
-          padding: const EdgeInsets.all(AppSpacing.l),
-          decoration: appCardDecoration(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  color: tintOf(competition.color),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.lock_clock_rounded,
-                  size: 52,
-                  color: competition.color,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.m),
-              Text(
-                competition.title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.text,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.s),
-              const Text(
-                'O resultado ainda não está disponível.\nO placar é divulgado somente após o encerramento da competição.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.muted, height: 1.45),
-              ),
-              const SizedBox(height: AppSpacing.l),
-              OutlinedButton.icon(
-                onPressed: () => setState(() => _showExample = true),
-                icon: const Icon(Icons.visibility_rounded),
-                label: const Text('Ver exemplo de placar'),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'O exemplo usa dados fictícios, apenas para demonstração.',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-            ],
-          ),
+  Widget _filterChip(
+    String label,
+    IconData icon,
+    Color color,
+    bool selected,
+    VoidCallback onTap,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: ChoiceChip(
+        avatar: Icon(icon, size: 18, color: selected ? Colors.white : color),
+        label: Text(label),
+        selected: selected,
+        showCheckmark: false,
+        selectedColor: color,
+        backgroundColor: Colors.white,
+        side: BorderSide(color: selected ? color : AppColors.border),
+        labelStyle: TextStyle(
+          color: selected ? Colors.white : AppColors.text,
+          fontWeight: FontWeight.w600,
         ),
+        onSelected: (_) => onTap(),
       ),
     );
   }
 
   Widget _buildBoard() {
-    // Insere o usuário real no ranking local e ordena todos pela pontuação.
-    // Os outros participantes continuam sendo exemplos fictícios nesta versão.
     final progress = AppProgress.instance;
+    final Competition? topic = _topicId == null
+        ? null
+        : mockCompetitions.firstWhere((c) => c.id == _topicId);
+    final userScore = topic == null
+        ? progress.totalPoints
+        : (progress.topicBestScore[topic.id] ?? 0);
     final userName = progress.displayName.trim().isEmpty
         ? 'Você'
         : progress.displayName.trim();
-    final ranking =
-        <Participant>[
-          ...mockParticipants,
-          Participant(
-            name: userName,
-            score: progress.totalPoints,
-            isCurrentUser: true,
-            avatar: progress.avatar,
-          ),
-        ]..sort((a, b) {
-          final byScore = b.score.compareTo(a.score);
-          if (byScore != 0) return byScore;
-          if (a.isCurrentUser != b.isCurrentUser) {
-            return a.isCurrentUser ? -1 : 1;
-          }
-          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-        });
+
+    // Reúne os participantes na pontuação do filtro atual e ordena.
+    final ranking = <Participant>[
+      for (final p in mockParticipants)
+        Participant(name: p.name, avatar: p.avatar, score: p.scoreIn(_topicId)),
+      Participant(
+        name: userName,
+        score: userScore,
+        isCurrentUser: true,
+        avatar: progress.avatar,
+      ),
+    ]..sort((a, b) {
+        final byScore = b.score.compareTo(a.score);
+        if (byScore != 0) return byScore;
+        if (a.isCurrentUser != b.isCurrentUser) {
+          return a.isCurrentUser ? -1 : 1;
+        }
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
+
     final others = ranking.skip(3).toList();
     final userRank =
         ranking.indexWhere((participant) => participant.isCurrentUser) + 1;
+
+    String hint;
+    if (userScore == 0) {
+      hint = topic == null
+          ? 'Complete um quiz para entrar na disputa.'
+          : 'Jogue o quiz deste tema para entrar na disputa.';
+    } else if (userRank == 1) {
+      hint = 'Você lidera o ranking!';
+    } else {
+      final gap = ranking[userRank - 2].score - userScore;
+      hint = 'Faltam $gap pts para alcançar o ${userRank - 1}º lugar.';
+    }
 
     return ListView(
       padding: const EdgeInsets.only(bottom: AppSpacing.l),
@@ -134,21 +127,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         GradientHeader(
           child: Column(
             children: [
-              const Text(
-                'Ranking geral',
+              Text(
+                topic == null ? 'Ranking geral' : 'Ranking · ${topic.title}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'Classificação por pontos acumulados',
-                style: TextStyle(color: Color(0xFFCFE0F0)),
+              Text(
+                topic == null
+                    ? 'Classificação por pontos acumulados'
+                    : 'Classificação pela melhor pontuação no tema',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Color(0xFFCFE0F0)),
               ),
-              const SizedBox(height: AppSpacing.l),
+              const SizedBox(height: AppSpacing.m),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -163,6 +159,31 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     ),
                 ],
               ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.m),
+        SizedBox(
+          height: 42,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
+            children: [
+              _filterChip(
+                'Geral',
+                Icons.public_rounded,
+                AppColors.navy,
+                _topicId == null,
+                () => setState(() => _topicId = null),
+              ),
+              for (final c in mockCompetitions)
+                _filterChip(
+                  c.theme,
+                  c.icon,
+                  c.color,
+                  _topicId == c.id,
+                  () => setState(() => _topicId = c.id),
+                ),
             ],
           ),
         ),
@@ -181,23 +202,50 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     color: AppColors.cyan.withValues(alpha: 0.35),
                   ),
                 ),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.person_pin_circle_rounded,
-                      color: AppColors.blue,
-                      size: 28,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        'Sua posição: $userRankº lugar • ${progress.totalPoints} pontos',
-                        style: const TextStyle(
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.person_pin_circle_rounded,
                           color: AppColors.blue,
-                          fontWeight: FontWeight.bold,
+                          size: 28,
                         ),
-                      ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            'Sua posição: $userRankº lugar • $userScore pontos',
+                            style: const TextStyle(
+                              color: AppColors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 6),
+                    Text(
+                      hint,
+                      style: const TextStyle(color: AppColors.text, height: 1.35),
+                    ),
+                    if (topic != null) ...[
+                      const SizedBox(height: 12),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: topic.color,
+                          minimumSize: const Size.fromHeight(46),
+                        ),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => QuizScreen(competition: topic),
+                          ),
+                        ),
+                        icon: const Icon(Icons.play_arrow_rounded),
+                        label: const Text('Jogar este quiz'),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -216,22 +264,29 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     ),
                   ),
                   child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: others[i].isCurrentUser
-                          ? AppColors.blue
-                          : AppColors.cyanBg,
-                      child: others[i].isCurrentUser
-                          ? Text(
-                              others[i].avatar,
-                              style: const TextStyle(fontSize: 19),
-                            )
-                          : Text(
-                              '${i + 4}',
-                              style: const TextStyle(
-                                color: AppColors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 26,
+                          child: Text(
+                            '${i + 4}º',
+                            style: const TextStyle(
+                              color: AppColors.muted,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
+                        ),
+                        CircleAvatar(
+                          backgroundColor: others[i].isCurrentUser
+                              ? AppColors.blue
+                              : AppColors.cyanBg,
+                          child: Text(
+                            others[i].avatar,
+                            style: const TextStyle(fontSize: 19),
+                          ),
+                        ),
+                      ],
                     ),
                     title: Text(
                       others[i].isCurrentUser
@@ -288,8 +343,26 @@ class _PodiumColumn extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.emoji_events_rounded, color: color, size: 36),
+        rank == 0
+            ? const Icon(
+                Icons.workspace_premium_rounded,
+                color: AppColors.gold,
+                size: 30,
+              )
+            : const SizedBox(height: 30),
         const SizedBox(height: 4),
+        Container(
+          width: 54,
+          height: 54,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(color: color, width: 3),
+          ),
+          child: Text(participant.avatar, style: const TextStyle(fontSize: 26)),
+        ),
+        const SizedBox(height: 6),
         Text(
           participant.isCurrentUser
               ? 'Você'

@@ -32,12 +32,33 @@ void main() {
     AppProgress.instance.totalPoints = 1500;
 
     await tester.pumpWidget(
-      MaterialApp(home: LeaderboardScreen(competition: mockCompetitions.first)),
+      MaterialApp(
+        home: LeaderboardScreen(
+          competition: mockCompetitions.first,
+          startGeneral: true,
+        ),
+      ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('Sua posição: 1º lugar • 1500 pontos'), findsOneWidget);
     expect(find.text('Você'), findsOneWidget);
     expect(find.text('1500 pts'), findsOneWidget);
+    expect(find.text('Ranking geral'), findsOneWidget);
+  });
+
+  testWidgets('placar abre no tema escolhido e usa a melhor pontuação', (
+    tester,
+  ) async {
+    AppProgress.instance.topicBestScore['medicina'] = 500;
+
+    await tester.pumpWidget(
+      MaterialApp(home: LeaderboardScreen(competition: mockCompetitions.first)),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ranking · Nuclear na Medicina'), findsOneWidget);
+    expect(find.text('Sua posição: 1º lugar • 500 pontos'), findsOneWidget);
+    expect(find.text('Jogar este quiz'), findsOneWidget);
   });
 }
