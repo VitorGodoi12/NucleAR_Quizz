@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -64,13 +66,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     if (!mounted) return;
-    await AppProgress.instance.updateProfile(name: name);
+    await context.read<AppProgress>().updateProfile(name: name);
     if (!mounted) return;
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => HomeScreen(userName: name)),
-      (route) => false,
-    );
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (_) => false);
   }
 
   @override
@@ -110,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.all(AppSpacing.l),
               child: Container(
                 padding: const EdgeInsets.all(AppSpacing.l),
-                decoration: appCardDecoration(),
+                decoration: appCardDecoration(context: context),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -119,8 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _nameController,
                         textCapitalization: TextCapitalization.words,
-                        decoration: appInput(
-                          'Nome',
+                        decoration: appInput(context, 'Nome',
                           Icons.person_outline_rounded,
                         ),
                         validator: Validators.name,
@@ -129,15 +126,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: appInput('E-mail', Icons.email_outlined),
+                        decoration: appInput(context, 'E-mail', Icons.email_outlined),
                         validator: Validators.email,
                       ),
                       const SizedBox(height: AppSpacing.m),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _hidePassword,
-                        decoration: appInput(
-                          'Senha',
+                        decoration: appInput(context, 'Senha',
                           Icons.lock_outline_rounded,
                           suffix: IconButton(
                             icon: Icon(
@@ -155,8 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _confirmController,
                         obscureText: _hidePassword,
-                        decoration: appInput(
-                          'Confirmar senha',
+                        decoration: appInput(context, 'Confirmar senha',
                           Icons.lock_reset_rounded,
                         ),
                         validator: (v) {
@@ -181,10 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),
-                );
+                Navigator.pushReplacementNamed(context, AppRoutes.login);
               },
               child: const Text('Já tenho conta. Entrar'),
             ),

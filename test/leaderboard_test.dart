@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
+import 'package:nuclear_quizdefinitivo/data/competition_catalog.dart';
 import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  late AppProgress progress;
+  late CompetitionCatalog catalog;
 
-  setUp(() {
+  setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    final progress = AppProgress.instance;
+    progress = AppProgress();
+    catalog = await CompetitionCatalog.load();
     progress.quizzesCompleted = 0;
     progress.questionsAnswered = 0;
     progress.correctAnswers = 0;
@@ -29,13 +33,19 @@ void main() {
   testWidgets('placar inclui o usuário e ordena pela pontuação total', (
     tester,
   ) async {
-    AppProgress.instance.totalPoints = 1500;
+    progress.totalPoints = 1500;
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: LeaderboardScreen(
-          competition: mockCompetitions.first,
-          startGeneral: true,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: progress),
+          Provider.value(value: catalog),
+        ],
+        child: MaterialApp(
+          home: LeaderboardScreen(
+            competition: catalog.competitions.first,
+            startGeneral: true,
+          ),
         ),
       ),
     );
@@ -50,10 +60,18 @@ void main() {
   testWidgets('placar abre no tema escolhido e usa a melhor pontuação', (
     tester,
   ) async {
-    AppProgress.instance.topicBestScore['medicina'] = 500;
+    progress.topicBestScore['medicina'] = 500;
 
     await tester.pumpWidget(
-      MaterialApp(home: LeaderboardScreen(competition: mockCompetitions.first)),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: progress),
+          Provider.value(value: catalog),
+        ],
+        child: MaterialApp(
+          home: LeaderboardScreen(competition: catalog.competitions.first),
+        ),
+      ),
     );
     await tester.pumpAndSettle();
 

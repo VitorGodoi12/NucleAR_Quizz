@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
+import 'package:nuclear_quizdefinitivo/data/competition_catalog.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/participant.dart';
@@ -41,14 +43,18 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Placar')),
-      body: AnimatedBuilder(
-        animation: AppProgress.instance,
-        builder: (context, _) => _buildBoard(),
+      body: Consumer<AppProgress>(
+        builder: (context, progress, _) => _buildBoard(
+          context,
+          progress,
+          context.read<CompetitionCatalog>().competitions,
+        ),
       ),
     );
   }
 
   Widget _filterChip(
+    BuildContext context,
     String label,
     IconData icon,
     Color color,
@@ -64,9 +70,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         showCheckmark: false,
         selectedColor: color,
         backgroundColor: Colors.white,
-        side: BorderSide(color: selected ? color : AppColors.border),
+        side: BorderSide(color: selected ? color : Theme.of(context).colorScheme.outline),
         labelStyle: TextStyle(
-          color: selected ? Colors.white : AppColors.text,
+          color: selected ? Colors.white : Theme.of(context).colorScheme.onSurface,
           fontWeight: FontWeight.w600,
         ),
         onSelected: (_) => onTap(),
@@ -74,11 +80,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     );
   }
 
-  Widget _buildBoard() {
-    final progress = AppProgress.instance;
+  Widget _buildBoard(
+    BuildContext context,
+    AppProgress progress,
+    List<Competition> competitions,
+  ) {
     final Competition? topic = _topicId == null
         ? null
-        : mockCompetitions.firstWhere((c) => c.id == _topicId);
+        : competitions.firstWhere((c) => c.id == _topicId);
     final userScore = topic == null
         ? progress.totalPoints
         : (progress.topicBestScore[topic.id] ?? 0);
@@ -129,7 +138,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               Text(
                 topic == null ? 'Ranking geral' : 'Ranking · ${topic.title}',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -141,7 +150,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     ? 'Classificação por pontos acumulados'
                     : 'Classificação pela melhor pontuação no tema',
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Color(0xFFCFE0F0)),
+                style: TextStyle(color: Color(0xFFCFE0F0)),
               ),
               const SizedBox(height: AppSpacing.m),
               Row(
@@ -169,14 +178,16 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.m),
             children: [
               _filterChip(
+                context,
                 'Geral',
                 Icons.public_rounded,
                 AppColors.navy,
                 _topicId == null,
                 () => setState(() => _topicId = null),
               ),
-              for (final c in mockCompetitions)
+              for (final c in competitions)
                 _filterChip(
+                  context,
                   c.theme,
                   c.icon,
                   c.color,
@@ -195,7 +206,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 padding: const EdgeInsets.all(AppSpacing.m),
                 margin: const EdgeInsets.only(bottom: AppSpacing.m),
                 decoration: BoxDecoration(
-                  color: AppColors.cyanBg,
+                  color: Theme.of(context).colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: AppColors.cyan.withValues(alpha: 0.35),
@@ -215,7 +226,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         Expanded(
                           child: Text(
                             'Sua posição: $userRankº lugar • $userScore pontos',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.blue,
                               fontWeight: FontWeight.bold,
                             ),
@@ -226,7 +237,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     const SizedBox(height: 6),
                     Text(
                       hint,
-                      style: const TextStyle(color: AppColors.text, height: 1.35),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.35),
                     ),
                     if (topic != null) ...[
                       const SizedBox(height: 12),
@@ -235,12 +246,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           backgroundColor: topic.color,
                           minimumSize: const Size.fromHeight(46),
                         ),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => QuizScreen(competition: topic),
-                          ),
-                        ),
+                        onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: topic),
                         icon: const Icon(Icons.play_arrow_rounded),
                         label: const Text('Jogar este quiz'),
                       ),
@@ -253,7 +259,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     color: others[i].isCurrentUser
-                        ? AppColors.cyanBg
+                        ? Theme.of(context).colorScheme.secondaryContainer
                         : Colors.white,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
@@ -270,8 +276,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           width: 26,
                           child: Text(
                             '${i + 4}º',
-                            style: const TextStyle(
-                              color: AppColors.muted,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -279,10 +285,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         CircleAvatar(
                           backgroundColor: others[i].isCurrentUser
                               ? AppColors.blue
-                              : AppColors.cyanBg,
+                              : Theme.of(context).colorScheme.secondaryContainer,
                           child: Text(
                             others[i].avatar,
-                            style: const TextStyle(fontSize: 19),
+                            style: TextStyle(fontSize: 19),
                           ),
                         ),
                       ],
@@ -291,14 +297,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       others[i].isCurrentUser
                           ? '${others[i].name} (você)'
                           : others[i].name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.text,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     trailing: Text(
                       '${others[i].score} pts',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppColors.blue,
                         fontSize: 16,
@@ -311,7 +317,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 'Sua pontuação é real e salva neste dispositivo. Os demais participantes são exemplos; para um ranking compartilhado entre pessoas, é necessário conectar um servidor.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.muted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: 12,
                   height: 1.4,
                 ),
@@ -359,7 +365,7 @@ class _PodiumColumn extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: color, width: 3),
           ),
-          child: Text(participant.avatar, style: const TextStyle(fontSize: 26)),
+          child: Text(participant.avatar, style: TextStyle(fontSize: 26)),
         ),
         const SizedBox(height: 6),
         Text(
@@ -375,7 +381,7 @@ class _PodiumColumn extends StatelessWidget {
         ),
         Text(
           '${participant.score} pts',
-          style: const TextStyle(color: Color(0xFFCFE0F0), fontSize: 13),
+          style: TextStyle(color: Color(0xFFCFE0F0), fontSize: 13),
         ),
         const SizedBox(height: 8),
         Container(
@@ -388,7 +394,7 @@ class _PodiumColumn extends StatelessWidget {
           ),
           child: Text(
             '${rank + 1}º',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 26,
               fontWeight: FontWeight.bold,

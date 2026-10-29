@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
@@ -53,7 +54,7 @@ class ResultScreen extends StatelessWidget {
               children: [
                 Text(
                   competition.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFFCFE0F0),
                     fontWeight: FontWeight.w600,
                   ),
@@ -77,7 +78,7 @@ class ResultScreen extends StatelessWidget {
                           children: [
                             Text(
                               '$score',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -96,7 +97,7 @@ class ResultScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.m),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -106,7 +107,7 @@ class ResultScreen extends StatelessWidget {
                 Text(
                   subtitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Color(0xFFCFE0F0), height: 1.4),
+                  style: TextStyle(color: Color(0xFFCFE0F0), height: 1.4),
                 ),
               ],
             ),
@@ -157,7 +158,7 @@ class ResultScreen extends StatelessWidget {
                           child: Text(
                             'Você acertou todas as perguntas! Não há explicações de erros para mostrar.',
                             style: TextStyle(
-                              color: AppColors.text,
+                              color: Theme.of(context).colorScheme.onSurface,
                               height: 1.4,
                             ),
                           ),
@@ -180,25 +181,14 @@ class ResultScreen extends StatelessWidget {
                     backgroundColor: competition.color,
                   ),
                   // Troca a rota: o botão "voltar" do novo quiz leva à Home.
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(competition: competition),
-                    ),
-                  ),
+                  onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.quiz, arguments: competition),
                   icon: const Icon(Icons.replay_rounded),
                   label: const Text('Jogar novamente'),
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            LeaderboardScreen(competition: competition),
-                      ),
-                    );
+                    Navigator.pushNamed(context, AppRoutes.leaderboard, arguments: LeaderboardRouteArgs(competition: competition));
                   },
                   icon: const Icon(Icons.leaderboard_rounded),
                   label: const Text('Ver placar'),
@@ -238,7 +228,7 @@ class _StatTile extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: appCardDecoration(),
+        decoration: appCardDecoration(context: context),
         child: Column(
           children: [
             Container(
@@ -260,7 +250,7 @@ class _StatTile extends StatelessWidget {
             ),
             Text(
               label,
-              style: const TextStyle(color: AppColors.muted, fontSize: 13),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 13),
             ),
           ],
         ),
@@ -286,15 +276,15 @@ class _WrongAnswerCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.m),
       padding: const EdgeInsets.all(AppSpacing.m),
-      decoration: appCardDecoration(),
+      decoration: appCardDecoration(context: context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             question.text,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: AppColors.text,
+              color: Theme.of(context).colorScheme.onSurface,
               height: 1.4,
               fontSize: 15.5,
             ),
@@ -328,7 +318,7 @@ class _WrongAnswerCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     question.explanation,
-                    style: const TextStyle(color: AppColors.text, height: 1.45),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.45),
                   ),
                 ),
               ],
@@ -370,7 +360,7 @@ class _AnswerLine extends StatelessWidget {
                 ),
                 TextSpan(
                   text: text,
-                  style: const TextStyle(color: AppColors.text),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 ),
               ],
             ),

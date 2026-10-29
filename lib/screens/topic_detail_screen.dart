@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -190,7 +191,7 @@ class TopicDetailScreen extends StatelessWidget {
                 const SizedBox(height: 18),
                 Text(
                   competition.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 27,
                     height: 1.15,
@@ -200,7 +201,7 @@ class TopicDetailScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   competition.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFFD8E7F5),
                     height: 1.55,
                     fontSize: 15,
@@ -238,14 +239,14 @@ class TopicDetailScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.text,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 7),
                 const Text(
                   'Antes do desafio, entenda os conceitos. Leia cada parte com calma e depois teste o que aprendeu no quiz.',
                   style: TextStyle(
-                    color: AppColors.muted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     height: 1.55,
                     fontSize: 15,
                   ),
@@ -280,7 +281,7 @@ class TopicDetailScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(bottom: 14),
                     padding: const EdgeInsets.all(17),
-                    decoration: appCardDecoration(),
+                    decoration: appCardDecoration(context: context),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -307,8 +308,8 @@ class TopicDetailScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 2),
                                 child: Text(
                                   '${i + 1}. ${_learningSections[i].title}',
-                                  style: const TextStyle(
-                                    color: AppColors.text,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onSurface,
                                     fontSize: 17,
                                     height: 1.3,
                                     fontWeight: FontWeight.w800,
@@ -321,8 +322,8 @@ class TopicDetailScreen extends StatelessWidget {
                         const SizedBox(height: 12),
                         Text(
                           _learningSections[i].body,
-                          style: const TextStyle(
-                            color: AppColors.text,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
                             height: 1.75,
                             fontSize: 15,
                           ),
@@ -362,7 +363,7 @@ class TopicDetailScreen extends StatelessWidget {
                             Text(
                               'Tente explicar com suas próprias palavras o que leu. Se algum conceito ainda estiver confuso, volte à seção correspondente. Aprender não é decorar: é entender como e por que algo funciona.',
                               style: TextStyle(
-                                color: AppColors.text,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 height: 1.6,
                               ),
                             ),
@@ -400,8 +401,8 @@ class TopicDetailScreen extends StatelessWidget {
                             const SizedBox(height: 6),
                             Text(
                               competition.curiosity,
-                              style: const TextStyle(
-                                color: AppColors.text,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
                                 height: 1.5,
                               ),
                             ),
@@ -423,12 +424,7 @@ class TopicDetailScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => QuizScreen(competition: competition),
-                      ),
-                    ),
+                    onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: competition),
                     icon: const Icon(Icons.play_arrow_rounded),
                     label: const Text(
                       'Li o conteúdo — iniciar quiz',
@@ -444,7 +440,7 @@ class TopicDetailScreen extends StatelessWidget {
                   child: Text(
                     'Responda no seu ritmo e aprenda com as explicações.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 12),
                   ),
                 ),
               ],
@@ -482,7 +478,7 @@ class _Pill extends StatelessWidget {
         const SizedBox(width: 6),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 12,
             fontWeight: FontWeight.w600,

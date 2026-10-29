@@ -37,12 +37,16 @@ class AppSpacing {
 Color tintOf(Color color) =>
     Color.alphaBlend(color.withAlpha(28), Colors.white);
 
-/// Decoração padrão de cartões brancos com sombra suave.
-BoxDecoration appCardDecoration({Color borderColor = AppColors.border}) {
+/// Decoração de cartão que acompanha a superfície do tema ativo.
+BoxDecoration appCardDecoration({
+  required BuildContext context,
+  Color? borderColor,
+}) {
+  final colors = Theme.of(context).colorScheme;
   return BoxDecoration(
-    color: Colors.white,
+    color: Theme.of(context).cardTheme.color ?? colors.surface,
     borderRadius: BorderRadius.circular(22),
-    border: Border.all(color: borderColor.withAlpha(190)),
+    border: Border.all(color: (borderColor ?? colors.outline).withAlpha(190)),
     boxShadow: const [
       BoxShadow(color: Color(0x100B2545), blurRadius: 24, offset: Offset(0, 8)),
     ],
@@ -50,6 +54,22 @@ BoxDecoration appCardDecoration({Color borderColor = AppColors.border}) {
 }
 
 class AppTheme {
+  static ThemeData get dark => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.cyan,
+      brightness: Brightness.dark,
+      primary: AppColors.cyan,
+      surface: const Color(0xFF111B27),
+    ),
+    scaffoldBackgroundColor: const Color(0xFF0B1420),
+    cardTheme: CardThemeData(color: const Color(0xFF162333), elevation: 0, margin: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22))),
+    appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF111B27), foregroundColor: Colors.white, centerTitle: true),
+    navigationBarTheme: const NavigationBarThemeData(backgroundColor: Color(0xFF111B27), indicatorColor: Color(0xFF164557), labelBehavior: NavigationDestinationLabelBehavior.alwaysShow),
+    dialogTheme: const DialogThemeData(backgroundColor: Color(0xFF162333)),
+    inputDecorationTheme: const InputDecorationTheme(filled: true, fillColor: Color(0xFF162333)),
+  );
   static const LinearGradient heroGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -160,20 +180,21 @@ class AppTheme {
 }
 
 /// Estilo padrão dos campos de formulário.
-InputDecoration appInput(String label, IconData icon, {Widget? suffix}) {
+InputDecoration appInput(BuildContext context, String label, IconData icon, {Widget? suffix}) {
+  final colors = Theme.of(context).colorScheme;
   return InputDecoration(
     labelText: label,
     prefixIcon: Icon(icon),
     suffixIcon: suffix,
     filled: true,
-    fillColor: AppColors.background,
+    fillColor: colors.surfaceContainerHighest,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
       borderSide: BorderSide.none,
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),
-      borderSide: const BorderSide(color: AppColors.border),
+      borderSide: BorderSide(color: colors.outline),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(14),

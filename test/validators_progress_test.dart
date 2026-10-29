@@ -6,13 +6,15 @@ import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/utils/validators.dart';
 
 String _dayKey(DateTime d) => '${d.year}-${d.month}-${d.day}';
+late AppProgress progress;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
-    final p = AppProgress.instance;
+    progress = AppProgress();
+    final p = progress;
     p.quizzesCompleted = 0;
     p.questionsAnswered = 0;
     p.correctAnswers = 0;
@@ -54,7 +56,7 @@ void main() {
 
   group('AppProgress', () {
     test('missão diária conta apenas perguntas respondidas hoje', () {
-      final p = AppProgress.instance;
+      final p = progress;
       p.dailyDay = '2000-1-1';
       p.dailyAnswered = 7;
       expect(p.answeredToday, 0);
@@ -66,7 +68,7 @@ void main() {
     });
 
     test('sequência antiga não é exibida', () {
-      final p = AppProgress.instance;
+      final p = progress;
       p.currentStreak = 5;
       p.lastStudyDay = '2000-1-1';
       expect(p.activeStreak, 0);

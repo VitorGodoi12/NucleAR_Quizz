@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 
 /// Progresso persistido localmente no dispositivo; não é enviado a um servidor.
 class AppProgress extends ChangeNotifier {
-  AppProgress._();
-  static final AppProgress instance = AppProgress._();
+  AppProgress();
   static const _storageKey = 'nuclear_quiz_progress_v2';
 
   int quizzesCompleted = 0;
@@ -21,6 +21,11 @@ class AppProgress extends ChangeNotifier {
   String displayName = '';
   String avatar = '🚀';
   String themeMode = 'Sistema';
+  ThemeMode get selectedThemeMode => switch (themeMode) {
+    'Claro' => ThemeMode.light,
+    'Escuro' => ThemeMode.dark,
+    _ => ThemeMode.system,
+  };
   final Map<String, int> topicLastScore = {};
   final Map<String, int> topicBestScore = {};
   final Map<String, int> topicAttempts = {};

@@ -10,6 +10,30 @@ class Question {
     required this.correctIndex,
     required this.explanation,
   });
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    final text = json['text'];
+    final rawOptions = json['options'];
+    final correctIndex = json['correctIndex'];
+    final explanation = json['explanation'];
+    if (text is! String ||
+        rawOptions is! List ||
+        rawOptions.any((option) => option is! String) ||
+        correctIndex is! int ||
+        explanation is! String) {
+      throw const FormatException('Formato de pergunta inválido.');
+    }
+    final options = rawOptions.cast<String>();
+    if (options.isEmpty || correctIndex < 0 || correctIndex >= options.length) {
+      throw const FormatException('Alternativas ou resposta inválidas.');
+    }
+    return Question(
+      text: text,
+      options: options,
+      correctIndex: correctIndex,
+      explanation: explanation,
+    );
+  }
 }
 
 /// Pergunta respondida de forma incorreta (ou sem resposta, se chosenIndex for null).

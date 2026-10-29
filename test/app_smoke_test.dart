@@ -1,11 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
+import 'package:nuclear_quizdefinitivo/data/competition_catalog.dart';
 import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 
 void main() {
+  late CompetitionCatalog catalog;
+  setUpAll(() async {
+    catalog = await CompetitionCatalog.load();
+  });
+
   test('cada pergunta tem alternativas e uma resposta válida', () {
-    for (final competition in mockCompetitions) {
+    for (final competition in catalog.competitions) {
       expect(competition.questions, isNotEmpty);
       for (final question in competition.questions) {
         expect(question.options, isNotEmpty);
@@ -19,7 +24,7 @@ void main() {
   });
 
   test('cada tema tem 6 perguntas', () {
-    for (final competition in mockCompetitions) {
+    for (final competition in catalog.competitions) {
       expect(competition.questions.length, 6, reason: competition.id);
     }
   });
@@ -50,7 +55,7 @@ void main() {
     () {
       expect(mockParticipants.length, greaterThanOrEqualTo(10));
       expect(
-        mockCompetitions.every((competition) => competition.resultsReleased),
+        catalog.competitions.every((competition) => competition.resultsReleased),
         isTrue,
       );
     },

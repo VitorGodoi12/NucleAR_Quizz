@@ -26,7 +26,7 @@ class CompetitionCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSpacing.m),
       clipBehavior: Clip.antiAlias,
-      decoration: appCardDecoration(),
+      decoration: appCardDecoration(context: context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,7 +52,7 @@ class CompetitionCard extends StatelessWidget {
                     children: [
                       Text(
                         competition.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -61,7 +61,7 @@ class CompetitionCard extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         'Tema: ${competition.theme}',
-                        style: const TextStyle(color: Color(0xE6FFFFFF)),
+                        style: TextStyle(color: Color(0xE6FFFFFF)),
                       ),
                     ],
                   ),
@@ -76,8 +76,8 @@ class CompetitionCard extends StatelessWidget {
               children: [
                 Text(
                   competition.description,
-                  style: const TextStyle(
-                    color: AppColors.text,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 15,
                     height: 1.4,
                   ),
@@ -95,7 +95,7 @@ class CompetitionCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: lastScore == null
-                          ? AppColors.border
+                          ? Theme.of(context).colorScheme.outline
                           : color.withAlpha(70),
                     ),
                   ),
@@ -111,9 +111,9 @@ class CompetitionCard extends StatelessWidget {
                               lastScore == null
                                   ? 'Ainda não jogou este quiz'
                                   : 'Última pontuação: $lastScore pts',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.text,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                             if (bestScore != null)
@@ -159,11 +159,11 @@ class CompetitionCard extends StatelessWidget {
                               ),
                               TextSpan(
                                 text: competition.curiosity,
-                                style: const TextStyle(color: AppColors.text),
+                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                               ),
                             ],
                           ),
-                          style: const TextStyle(height: 1.35, fontSize: 13.5),
+                          style: TextStyle(height: 1.35, fontSize: 13.5),
                         ),
                       ),
                     ],
@@ -238,7 +238,7 @@ class _InfoPill extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.background,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -247,7 +247,7 @@ class _InfoPill extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             label,
-            style: const TextStyle(fontSize: 12.5, color: AppColors.text),
+            style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.onSurface),
           ),
         ],
       ),

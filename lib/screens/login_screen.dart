@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -36,14 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
     final name = Validators.nameFromEmail(_emailController.text);
-    await AppProgress.instance.updateProfile(name: name);
+    await context.read<AppProgress>().updateProfile(name: name);
     if (!mounted) return;
     // Home vira a primeira rota: o botão "voltar" não retorna ao login.
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => HomeScreen(userName: name)),
-      (route) => false,
-    );
+    Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (_) => false);
     messenger.showSnackBar(
       SnackBar(content: Text('Login realizado! Bem-vindo(a), $name.')),
     );
@@ -81,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.all(AppSpacing.l),
               child: Container(
                 padding: const EdgeInsets.all(AppSpacing.l),
-                decoration: appCardDecoration(),
+                decoration: appCardDecoration(context: context),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -90,15 +88,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: appInput('E-mail', Icons.email_outlined),
+                        decoration: appInput(context, 'E-mail', Icons.email_outlined),
                         validator: Validators.email,
                       ),
                       const SizedBox(height: AppSpacing.m),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _hidePassword,
-                        decoration: appInput(
-                          'Senha',
+                        decoration: appInput(context, 'Senha',
                           Icons.lock_outline_rounded,
                           suffix: IconButton(
                             icon: Icon(
@@ -123,14 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           Icon(
                             Icons.info_outline_rounded,
                             size: 16,
-                            color: AppColors.muted,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                           SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               'Login simulado: nenhuma conta é verificada em servidor.',
                               style: TextStyle(
-                                color: AppColors.muted,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                                 fontSize: 12.5,
                               ),
                             ),
@@ -144,10 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
-                );
+                Navigator.pushReplacementNamed(context, AppRoutes.register);
               },
               child: const Text('Ainda não tem conta? Cadastre-se'),
             ),

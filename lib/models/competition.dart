@@ -28,4 +28,16 @@ class Competition {
     required this.questions,
     this.resultsReleased = false,
   });
+
+  Competition withQuestions(List<Question> loadedQuestions) => Competition(
+    id: id,
+    title: title,
+    theme: theme,
+    description: description,
+    curiosity: curiosity,
+    icon: icon,
+    color: color,
+    questions: loadedQuestions,
+    resultsReleased: resultsReleased,
+  );
 }

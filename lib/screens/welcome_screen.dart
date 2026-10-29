@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -123,12 +124,7 @@ class WelcomeScreen extends StatelessWidget {
                             backgroundColor: AppColors.cyan,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const LoginScreen(),
-                              ),
-                            );
+                            Navigator.pushNamed(context, AppRoutes.login);
                           },
                           child: const Text('Entrar'),
                         ),
@@ -142,12 +138,7 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const RegisterScreen(),
-                              ),
-                            );
+                            Navigator.pushNamed(context, AppRoutes.register);
                           },
                           child: const Text('Cadastrar-se'),
                         ),
@@ -215,7 +206,7 @@ class _Feature extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -224,7 +215,7 @@ class _Feature extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 text,
-                style: const TextStyle(color: Color(0xFFCFE0F0), fontSize: 13),
+                style: TextStyle(color: Color(0xFFCFE0F0), fontSize: 13),
               ),
             ],
           ),

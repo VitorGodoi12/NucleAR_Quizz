@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nuclear_quizdefinitivo/data/mock_questions.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
+import 'package:nuclear_quizdefinitivo/models/question.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 
-// Competições fictícias, todas liberadas para participação.
-const List<Competition> mockCompetitions = [
+// Metadados das competições. O conteúdo das perguntas vem de assets/data/questions.json.
+const List<Competition> competitionMetadata = [
   Competition(
     id: 'medicina',
     title: 'Nuclear na Medicina',
@@ -13,7 +13,7 @@ const List<Competition> mockCompetitions = [
     curiosity: 'No exame PET, um radiofármaco em quantidade controlada ajuda a revelar a atividade de tecidos e órgãos, complementando outras informações clínicas.',
     icon: Icons.medical_services_rounded,
     color: AppColors.health,
-    questions: medicineQuestions,
+    questions: [],
     resultsReleased: true,
   ),
   Competition(
@@ -24,7 +24,7 @@ const List<Competition> mockCompetitions = [
     curiosity: 'A irradiação transfere energia ao alimento para reduzir microrganismos e pragas; ela não adiciona material radioativo ao produto.',
     icon: Icons.agriculture_rounded,
     color: AppColors.agro,
-    questions: agricultureQuestions,
+    questions: [],
     resultsReleased: true,
   ),
   Competition(
@@ -35,7 +35,7 @@ const List<Competition> mockCompetitions = [
     curiosity: 'Alguns detectores de fumaça do tipo iônico usam uma quantidade muito pequena de amerício-241 dentro de uma câmara protegida.',
     icon: Icons.precision_manufacturing_rounded,
     color: AppColors.industry,
-    questions: industryQuestions,
+    questions: [],
     resultsReleased: true,
   ),
   Competition(
@@ -46,7 +46,27 @@ const List<Competition> mockCompetitions = [
     curiosity: 'Durante a geração de eletricidade, uma usina nuclear não libera CO₂ pela queima de combustível; ainda assim, há impactos e resíduos que precisam ser gerenciados.',
     icon: Icons.bolt_rounded,
     color: AppColors.energy,
-    questions: energyQuestions,
+    questions: [],
     resultsReleased: true,
   ),
 ];
+
+List<Competition> buildCompetitions(Map<String, dynamic> questionData) {
+  return [
+    for (final metadata in competitionMetadata)
+      metadata.withQuestions(_questionsFor(questionData, metadata.id)),
+  ];
+}
+
+List<Question> _questionsFor(Map<String, dynamic> data, String topicId) {
+  final rawQuestions = data[topicId];
+  if (rawQuestions is! List || rawQuestions.isEmpty) {
+    throw FormatException('Não há perguntas cadastradas para "$topicId".');
+  }
+  return [
+    for (final raw in rawQuestions)
+      if (raw is Map<String, dynamic>) Question.fromJson(raw)
+      else if (raw is Map) Question.fromJson(Map<String, dynamic>.from(raw))
+      else throw FormatException('Pergunta inválida no tema "$topicId".'),
+  ];
+}

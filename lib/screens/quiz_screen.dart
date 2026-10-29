@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
+import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 import 'package:nuclear_quizdefinitivo/screens/result_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -129,7 +131,7 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_isLast) {
       // Evita contabilizar a tentativa novamente durante a troca de rota.
       _isFinishing = true;
-      AppProgress.instance.recordQuiz(
+      context.read<AppProgress>().recordQuiz(
         topicId: widget.competition.id,
         correct: _correctCount,
         total: _questions.length,
@@ -137,17 +139,7 @@ class _QuizScreenState extends State<QuizScreen> {
         wrongAnswers: _wrongAnswers,
       );
       // Passagem de parâmetros: resultado desta tentativa vai para a tela de resultado.
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ResultScreen(
-            competition: widget.competition,
-            correctCount: _correctCount,
-            score: _score,
-            wrongAnswers: _wrongAnswers,
-          ),
-        ),
-      );
+      Navigator.pushReplacementNamed(context, AppRoutes.result, arguments: ResultRouteArgs(competition: widget.competition, correctCount: _correctCount, score: _score, wrongAnswers: List.unmodifiable(_wrongAnswers)));
     } else {
       // Reinicia o cronômetro ANTES do setState: assim a interface já mostra
       // 30s na nova pergunta (antes exibia o tempo antigo por 1 segundo).
@@ -200,7 +192,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     children: [
                       Text(
                         'Pergunta ${_currentIndex + 1} de $total',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           fontSize: 16,
@@ -256,7 +248,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.m),
-                        decoration: appCardDecoration(),
+                        decoration: appCardDecoration(context: context),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -282,10 +274,10 @@ class _QuizScreenState extends State<QuizScreen> {
                             const SizedBox(height: 10),
                             Text(
                               _question.text,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.text,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 height: 1.4,
                               ),
                             ),
@@ -404,7 +396,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 const SizedBox(height: 4),
                 Text(
                   wasCorrect ? '$body\n\n${_question.explanation}' : body,
-                  style: const TextStyle(color: AppColors.text, height: 1.35),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.35),
                 ),
               ],
             ),
