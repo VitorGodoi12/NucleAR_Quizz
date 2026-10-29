@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 
 class Competition {
-  static const int secondsPerQuestion = 30;
+  static const int secondsPerQuestion = 20;
   static const int pointsPerCorrect = 10;
+  static const int questionsPerMatch = 6;
 
   final String id;
   final String title;

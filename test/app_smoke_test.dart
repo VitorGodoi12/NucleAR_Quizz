@@ -46,8 +46,8 @@ void main() {
     }
   });
 
-  test('quiz usa 30 segundos por pergunta', () {
-    expect(Competition.secondsPerQuestion, 30);
+  test('quiz usa 20 segundos por pergunta', () {
+    expect(Competition.secondsPerQuestion, 20);
   });
 
   test(

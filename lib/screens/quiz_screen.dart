@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,15 +33,35 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _isFinishing = false;
   final List<WrongAnswer> _wrongAnswers = [];
   Timer? _timer;
+  final Random _random = Random();
+  late Competition _sessionCompetition;
 
-  List<Question> get _questions => widget.competition.questions;
+  List<Question> get _questions => _sessionCompetition.questions;
   Question get _question => _questions[_currentIndex];
   bool get _isLast => _currentIndex == _questions.length - 1;
 
   @override
   void initState() {
     super.initState();
+    final shuffledQuestions = [...widget.competition.questions]..shuffle(_random);
+    _sessionCompetition = widget.competition.withQuestions(
+      shuffledQuestions
+          .take(min(Competition.questionsPerMatch, shuffledQuestions.length))
+          .map(_shuffleOptions)
+          .toList(growable: false),
+    );
     _startTimer();
+  }
+
+  Question _shuffleOptions(Question question) {
+    final order = List<int>.generate(question.options.length, (index) => index)
+      ..shuffle(_random);
+    return Question(
+      text: question.text,
+      options: [for (final index in order) question.options[index]],
+      correctIndex: order.indexOf(question.correctIndex),
+      explanation: question.explanation,
+    );
   }
 
   @override
@@ -99,10 +120,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final chosen = timeout ? null : _selectedIndex;
     final isCorrect = chosen == _question.correctIndex;
-    // Pontuação estilo Kahoot: 20 pontos se acertar nos primeiros 25s;
-    // depois disso, ainda ganha os 10 pontos-base por acerto.
+    // O modo cronometrado dá bônus nos primeiros cinco segundos.
     final pointsEarned = isCorrect
-        ? (_secondsLeft >= Competition.secondsPerQuestion - 25
+        ? (_secondsLeft >= Competition.secondsPerQuestion - 5
               ? Competition.pointsPerCorrect * 2
               : Competition.pointsPerCorrect)
         : 0;
@@ -139,10 +159,10 @@ class _QuizScreenState extends State<QuizScreen> {
         wrongAnswers: _wrongAnswers,
       );
       // Passagem de parâmetros: resultado desta tentativa vai para a tela de resultado.
-      Navigator.pushReplacementNamed(context, AppRoutes.result, arguments: ResultRouteArgs(competition: widget.competition, correctCount: _correctCount, score: _score, wrongAnswers: List.unmodifiable(_wrongAnswers)));
+      Navigator.pushReplacementNamed(context, AppRoutes.result, arguments: ResultRouteArgs(competition: _sessionCompetition, correctCount: _correctCount, score: _score, wrongAnswers: List.unmodifiable(_wrongAnswers)));
     } else {
-      // Reinicia o cronômetro ANTES do setState: assim a interface já mostra
-      // 30s na nova pergunta (antes exibia o tempo antigo por 1 segundo).
+      // Reinicia o cronômetro antes do setState para mostrar o tempo completo
+      // junto com a próxima pergunta.
       _startTimer();
       setState(() {
         _currentIndex++;
@@ -154,7 +174,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final competition = widget.competition;
+    final competition = _sessionCompetition;
     final total = _questions.length;
     final progress = (_currentIndex + (_answered ? 1 : 0)) / total;
     final lowTime = _secondsLeft <= 5 && !_answered;
@@ -166,7 +186,9 @@ class _QuizScreenState extends State<QuizScreen> {
       },
       child: Scaffold(
       appBar: AppBar(
-        title: Text(competition.title),
+        title: Text(
+          competition.title,
+        ),
         backgroundColor: competition.color,
       ),
       body: SafeArea(
@@ -200,10 +222,10 @@ class _QuizScreenState extends State<QuizScreen> {
                       ),
                       const Spacer(),
                       _InfoChip(
-                        icon: Icons.timer_outlined,
-                        label: '${_secondsLeft}s',
-                        color: lowTime ? AppColors.error : AppColors.navy,
-                      ),
+                          icon: Icons.timer_outlined,
+                          label: '${_secondsLeft}s',
+                          color: lowTime ? AppColors.error : AppColors.navy,
+                        ),
                       const SizedBox(width: 8),
                       _InfoChip(
                         icon: Icons.star_rounded,
