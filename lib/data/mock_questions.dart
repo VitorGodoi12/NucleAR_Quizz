@@ -1,6 +1,6 @@
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 
-// Dados simulados: ficam apenas em memória, sem persistência.
+// Dados simulados (6 perguntas por tema): ficam apenas em memória.
 
 const List<Question> medicineQuestions = [
   Question(
@@ -42,6 +42,28 @@ const List<Question> medicineQuestions = [
     ],
     correctIndex: 2,
     explanation: 'A radiação gama elimina bactérias e vírus mesmo com o material já embalado e sem aquecê-lo, o que é ideal para itens sensíveis ao calor. Depois do processo, os produtos não ficam radioativos.',
+  ),
+  Question(
+    text: 'O tecnécio-99m é muito usado em cintilografias. Por que ele é adequado para exames de imagem?',
+    options: [
+      'Porque não emite nenhum tipo de radiação',
+      'Porque permanece no corpo por vários anos',
+      'Porque emite radiação gama detectável e tem meia-vida curta, de cerca de 6 horas',
+      'Porque aquece os tecidos para formar a imagem',
+    ],
+    correctIndex: 2,
+    explanation: 'O tecnécio-99m emite radiação gama, que câmeras especiais detectam para formar a imagem. Sua meia-vida é de cerca de 6 horas: a atividade cai pela metade nesse tempo, o que reduz a exposição do paciente depois do exame.',
+  ),
+  Question(
+    text: 'Quais medidas ajudam a reduzir a exposição de quem trabalha com radiação?',
+    options: [
+      'Diminuir o tempo de exposição, aumentar a distância da fonte e usar blindagem',
+      'Ficar o máximo de tempo possível perto da fonte para se acostumar',
+      'Dispensar o dosímetro individual',
+      'Usar apenas roupas comuns, sem nenhuma blindagem',
+    ],
+    correctIndex: 0,
+    explanation: 'Tempo, distância e blindagem são os três pilares da proteção radiológica: menos tempo perto da fonte, mais distância e barreiras como chumbo ou concreto reduzem a dose recebida. O dosímetro individual registra a dose e ajuda a manter o trabalho dentro dos limites de segurança.',
   ),
 ];
 
@@ -90,6 +112,28 @@ const List<Question> agricultureQuestions = [
     correctIndex: 3,
     explanation: 'Ao marcar um fertilizante com um isótopo, é possível detectar quanto a planta absorve e em quanto tempo. Isso ajuda a usar menos adubo, reduzindo custos e impacto ambiental.',
   ),
+  Question(
+    text: 'Qual afirmação sobre a irradiação de alimentos está correta?',
+    options: [
+      'Ela dispensa refrigeração e higiene em qualquer situação',
+      'Ela reduz microrganismos e pode retardar a deterioração, mas não substitui as boas práticas de produção',
+      'Ela deixa o alimento radioativo por vários meses',
+      'Ela só pode ser aplicada em carnes',
+    ],
+    correctIndex: 1,
+    explanation: 'A irradiação reduz microrganismos e insetos e pode atrasar o amadurecimento ou a deterioração. Ela não torna o alimento radioativo e também não substitui higiene, armazenamento adequado e boas práticas, que continuam necessários.',
+  ),
+  Question(
+    text: 'Em qual cidade paulista fica o Centro de Energia Nuclear na Agricultura (CENA/USP)?',
+    options: [
+      'Campinas',
+      'Ribeirão Preto',
+      'Sorocaba',
+      'Piracicaba',
+    ],
+    correctIndex: 3,
+    explanation: 'O CENA/USP fica em Piracicaba (SP) e pesquisa o uso de isótopos e de outras técnicas nucleares em solo, plantas, água e alimentos, ajudando a produzir com melhor aproveitamento dos recursos.',
+  ),
 ];
 
 const List<Question> industryQuestions = [
@@ -137,6 +181,28 @@ const List<Question> industryQuestions = [
     correctIndex: 2,
     explanation: 'A radiação cria ligações entre as cadeias do polímero (processo chamado reticulação), tornando o material mais resistente ao calor e ao desgaste. O produto final não fica radioativo.',
   ),
+  Question(
+    text: 'Qual é a função da blindagem e da sinalização em áreas com fontes de radiação industrial?',
+    options: [
+      'Decorar o ambiente de trabalho',
+      'Aumentar a intensidade da radiação',
+      'Acelerar a linha de produção',
+      'Limitar a exposição e impedir o acesso de pessoas não autorizadas',
+    ],
+    correctIndex: 3,
+    explanation: 'Blindagens, sinalização e controle de acesso mantêm a exposição baixa e evitam que pessoas sem treinamento se aproximem das fontes. Esses cuidados fazem parte das normas de proteção radiológica da atividade.',
+  ),
+  Question(
+    text: 'Que tipo de problema a radiografia industrial pode revelar no interior de uma solda?',
+    options: [
+      'A cor original da tinta',
+      'Trincas, poros e outras falhas internas',
+      'O nome do fabricante da peça',
+      'A temperatura do dia da soldagem',
+    ],
+    correctIndex: 1,
+    explanation: 'Assim como uma radiografia médica mostra o interior do corpo, a radiografia industrial mostra o interior de soldas e peças. Diferenças na passagem da radiação revelam trincas, poros e falhas sem cortar o material, por isso o ensaio é chamado de não destrutivo.',
+  ),
 ];
 
 const List<Question> energyQuestions = [
@@ -183,5 +249,27 @@ const List<Question> energyQuestions = [
     ],
     correctIndex: 0,
     explanation: 'As usinas Angra 1 e Angra 2 ficam em Angra dos Reis, no Rio de Janeiro, na Central Nuclear Almirante Álvaro Alberto.',
+  ),
+  Question(
+    text: 'Em uma usina nuclear, o que movimenta a turbina ligada ao gerador elétrico?',
+    options: [
+      'O vento captado por grandes hélices',
+      'O vapor produzido com o calor da fissão',
+      'Os nêutrons liberados no reator',
+      'Um motor movido a diesel',
+    ],
+    correctIndex: 1,
+    explanation: 'O calor liberado na fissão aquece a água e produz vapor. O vapor faz a turbina girar, e o gerador conectado a ela transforma esse movimento em eletricidade. Depois, o vapor é condensado e a água volta ao ciclo.',
+  ),
+  Question(
+    text: 'Para que servem as barras de controle de um reator nuclear?',
+    options: [
+      'Aumentar a velocidade da turbina',
+      'Armazenar a eletricidade gerada',
+      'Fabricar combustível novo',
+      'Controlar a quantidade de nêutrons e, assim, a reação em cadeia',
+    ],
+    correctIndex: 3,
+    explanation: 'As barras de controle contêm materiais que absorvem nêutrons. Ao serem inseridas ou retiradas do núcleo, regulam quantas fissões ocorrem e, portanto, o calor produzido. Junto com refrigeração e barreiras de contenção, formam as camadas de segurança do reator.',
   ),
 ];
