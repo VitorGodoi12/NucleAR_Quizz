@@ -16,6 +16,8 @@ class AppProgress extends ChangeNotifier {
   int totalPoints = 0;
   int currentStreak = 0;
   String lastStudyDay = '';
+  String dailyDay = '';
+  int dailyAnswered = 0;
   String displayName = '';
   String avatar = '🚀';
   String themeMode = 'Sistema';
@@ -27,6 +29,22 @@ class AppProgress extends ChangeNotifier {
 
   double get accuracy =>
       questionsAnswered == 0 ? 0 : correctAnswers / questionsAnswered;
+  /// Meta da missão diária (perguntas respondidas no dia).
+  static const int dailyGoal = 10;
+
+  /// Perguntas respondidas hoje; zera automaticamente quando o dia muda.
+  int get answeredToday =>
+      dailyDay == _dayKey(DateTime.now()) ? dailyAnswered : 0;
+
+  /// Sequência exibida: só vale se o último estudo foi hoje ou ontem.
+  int get activeStreak {
+    final today = _dayKey(DateTime.now());
+    final yesterday = _dayKey(DateTime.now().subtract(const Duration(days: 1)));
+    return (lastStudyDay == today || lastStudyDay == yesterday)
+        ? currentStreak
+        : 0;
+  }
+
   int get level => 1 + (totalPoints ~/ 100);
   int get pointsToNextLevel => 100 - (totalPoints % 100);
 
@@ -42,6 +60,8 @@ class AppProgress extends ChangeNotifier {
       totalPoints = data['totalPoints'] ?? 0;
       currentStreak = data['currentStreak'] ?? 0;
       lastStudyDay = data['lastStudyDay'] ?? '';
+      dailyDay = data['dailyDay'] ?? '';
+      dailyAnswered = data['dailyAnswered'] ?? 0;
       displayName = data['displayName'] ?? '';
       avatar = data['avatar'] ?? '🚀';
       themeMode = data['themeMode'] ?? 'Sistema';
@@ -89,6 +109,11 @@ class AppProgress extends ChangeNotifier {
     topicAttempts[topicId] = (topicAttempts[topicId] ?? 0) + total;
     topicCorrect[topicId] = (topicCorrect[topicId] ?? 0) + correct;
     final today = _dayKey(DateTime.now());
+    if (dailyDay != today) {
+      dailyDay = today;
+      dailyAnswered = 0;
+    }
+    dailyAnswered += total;
     if (lastStudyDay != today) {
       final yesterday = _dayKey(
         DateTime.now().subtract(const Duration(days: 1)),
@@ -143,6 +168,8 @@ class AppProgress extends ChangeNotifier {
         'totalPoints': totalPoints,
         'currentStreak': currentStreak,
         'lastStudyDay': lastStudyDay,
+        'dailyDay': dailyDay,
+        'dailyAnswered': dailyAnswered,
         'displayName': displayName,
         'avatar': avatar,
         'themeMode': themeMode,

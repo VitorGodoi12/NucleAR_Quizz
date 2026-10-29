@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
 import 'package:nuclear_quizdefinitivo/data/mock_competitions.dart';
@@ -13,7 +15,7 @@ import 'package:nuclear_quizdefinitivo/widgets/competition_card.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 import 'package:nuclear_quizdefinitivo/widgets/section_title.dart';
 
-/// Área principal com navegação persistente entre Texto, Quiz, Conta e Placar.
+/// Área principal com navegação inferior: Início, Aprender, Quiz, Estatísticas e Perfil.
 class HomeScreen extends StatefulWidget {
   final String userName;
   const HomeScreen({super.key, required this.userName});
@@ -180,7 +182,9 @@ class _HomeScreenState extends State<HomeScreen> {
             animation: AppProgress.instance,
             builder: (context, _) {
               final p = AppProgress.instance;
-              final dailyDone = p.questionsAnswered % 10;
+              final dailyDone = p.answeredToday > AppProgress.dailyGoal
+                  ? AppProgress.dailyGoal
+                  : p.answeredToday;
               return Container(
                 padding: const EdgeInsets.all(16),
                 decoration: appCardDecoration(),
@@ -197,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Sequência: ${p.currentStreak} dia(s)',
+                            'Sequência: ${p.activeStreak} dia(s)',
                             style: const TextStyle(
                               fontWeight: FontWeight.w800,
                               color: AppColors.text,
@@ -220,13 +224,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 10),
                     LinearProgressIndicator(
-                      value: dailyDone / 10,
+                      value: dailyDone / AppProgress.dailyGoal,
                       minHeight: 7,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '$dailyDone/10 perguntas nesta contagem • ${p.pointsToNextLevel} pts para o próximo nível',
+                      '$dailyDone/${AppProgress.dailyGoal} perguntas hoje • ${p.pointsToNextLevel} pts para o próximo nível',
                       style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.muted,
@@ -250,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         _AchievementChip(
                           icon: Icons.local_fire_department_rounded,
                           label: '3 dias seguidos',
-                          unlocked: p.currentStreak >= 3,
+                          unlocked: p.activeStreak >= 3,
                         ),
                       ],
                     ),
@@ -258,6 +262,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.m,
+            AppSpacing.m,
+            AppSpacing.m,
+            0,
+          ),
+          child: AnimatedBuilder(
+            animation: AppProgress.instance,
+            builder: (context, _) => Row(
+              children: [
+                Expanded(
+                  child: _QuickAction(
+                    icon: Icons.shuffle_rounded,
+                    label: 'Quiz aleatório',
+                    color: AppColors.cyan,
+                    onTap: _openRandomQuiz,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _QuickAction(
+                    icon: Icons.leaderboard_rounded,
+                    label: 'Placar',
+                    color: AppColors.gold,
+                    onTap: _openGeneralLeaderboard,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: _QuickAction(
+                    icon: Icons.replay_circle_filled_rounded,
+                    label:
+                        'Revisar (${AppProgress.instance.reviewItems.length})',
+                    color: AppColors.blue,
+                    onTap: AppProgress.instance.reviewItems.isEmpty
+                        ? null
+                        : _openReview,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 8),
@@ -373,15 +421,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         const SizedBox(height: 8),
         OutlinedButton.icon(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  LeaderboardScreen(competition: mockCompetitions.first),
-            ),
-          ),
+          onPressed: _openGeneralLeaderboard,
           icon: const Icon(Icons.leaderboard_rounded),
-          label: const Text('Abrir ranking'),
+          label: const Text('Abrir ranking geral'),
         ),
       ],
     );
@@ -748,17 +790,17 @@ class _HomeScreenState extends State<HomeScreen> {
       showDragHandle: true,
       builder: (context) => Padding(
         padding: const EdgeInsets.all(20),
-        child: Wrap(
-          spacing: 12,
-          runSpacing: 12,
+        child: GridView.count(
+          shrinkWrap: true,
+          crossAxisCount: 4,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
           children: [
             for (final avatar in avatars)
               InkWell(
                 onTap: () => Navigator.pop(context, avatar),
                 borderRadius: BorderRadius.circular(16),
                 child: Container(
-                  width: 64,
-                  height: 64,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: AppColors.cyanBg,
@@ -775,6 +817,28 @@ class _HomeScreenState extends State<HomeScreen> {
       await AppProgress.instance.updateProfile(avatarValue: result);
       setState(() => _avatar = result);
     }
+  }
+
+  void _openRandomQuiz() {
+    final competition = mockCompetitions[Random().nextInt(
+      mockCompetitions.length,
+    )];
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => QuizScreen(competition: competition)),
+    );
+  }
+
+  void _openGeneralLeaderboard() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => LeaderboardScreen(
+          competition: mockCompetitions.first,
+          startGeneral: true,
+        ),
+      ),
+    );
   }
 
   void _openReview() {
@@ -842,6 +906,64 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               );
             },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Botão de atalho (ícone + rótulo). Fica cinza quando [onTap] é nulo.
+class _QuickAction extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback? onTap;
+  const _QuickAction({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final enabled = onTap != null;
+    final tone = enabled ? color : AppColors.muted;
+    return Container(
+      decoration: appCardDecoration(),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(22),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(22),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: tintOf(tone),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: tone, size: 24),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: enabled ? AppColors.text : AppColors.muted,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
