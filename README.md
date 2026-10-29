@@ -8,9 +8,10 @@ Aplicativo educativo em Flutter e Dart que apresenta aplicações da tecnologia 
 
 | Nome | RM |
 | ---- | -- |
-| [PREENCHER] | [PREENCHER] |
-| [PREENCHER] | [PREENCHER] |
-| [PREENCHER] | [PREENCHER] |
+| Vitor Costa de Godoi | 568448 |
+| Lucas Pompeu | 567010 |
+| Felipe Cuesta Puerta de Oliveira | 567703 |
+| João Victor De Souza Braz | 566862 |
 
 ## Empresa / parceiro
 
