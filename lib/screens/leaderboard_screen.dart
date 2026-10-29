@@ -69,7 +69,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         selected: selected,
         showCheckmark: false,
         selectedColor: color,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         side: BorderSide(color: selected ? color : Theme.of(context).colorScheme.outline),
         labelStyle: TextStyle(
           color: selected ? Colors.white : Theme.of(context).colorScheme.onSurface,
