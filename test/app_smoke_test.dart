@@ -18,6 +18,29 @@ void main() {
     }
   });
 
+  test('cada tema tem 6 perguntas', () {
+    for (final competition in mockCompetitions) {
+      expect(competition.questions.length, 6, reason: competition.id);
+    }
+  });
+
+  test('cada quiz tem um ranking de participantes diferente e estável', () {
+    List<String> order(String? topic) {
+      final list = [...participantsFor(topic)]
+        ..sort((a, b) => b.score != a.score
+            ? b.score.compareTo(a.score)
+            : a.name.compareTo(b.name));
+      return list.map((p) => p.name).toList();
+    }
+
+    expect(order('medicina'), isNot(order('agricultura')));
+    expect(order('industria'), isNot(order('energia')));
+    expect(order('medicina'), order('medicina'));
+    for (final p in participantsFor('medicina')) {
+      expect(p.score, inInclusiveRange(20, 110));
+    }
+  });
+
   test('quiz usa 30 segundos por pergunta', () {
     expect(Competition.secondsPerQuestion, 30);
   });
