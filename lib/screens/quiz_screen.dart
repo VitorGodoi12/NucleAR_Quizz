@@ -124,8 +124,7 @@ class _QuizScreenState extends State<QuizScreen> {
     final isCorrect = chosen == _question.correctIndex;
     // O modo cronometrado dá bônus nos primeiros cinco segundos.
     final pointsEarned = isCorrect
-        ? (!widget.trainingMode &&
-                  _secondsLeft >= Competition.secondsPerQuestion - 5
+        ? (!widget.trainingMode && _secondsLeft > 5
               ? Competition.pointsPerCorrect * 2
               : Competition.pointsPerCorrect)
         : 0;
