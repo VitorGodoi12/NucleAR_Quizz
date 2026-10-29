@@ -22,21 +22,22 @@ class AnswerOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = AppColors.border;
-    Color background = Colors.white;
+    final colors = Theme.of(context).colorScheme;
+    Color borderColor = colors.outline;
+    Color background = Theme.of(context).cardTheme.color ?? colors.surface;
     IconData? trailing;
 
     if (showCorrect) {
       borderColor = AppColors.success;
-      background = AppColors.successBg;
+      background = AppColors.success.withValues(alpha: 0.18);
       trailing = Icons.check_circle_rounded;
     } else if (showWrong) {
       borderColor = AppColors.error;
-      background = AppColors.errorBg;
+      background = AppColors.error.withValues(alpha: 0.18);
       trailing = Icons.cancel_rounded;
     } else if (selected) {
       borderColor = AppColors.cyan;
-      background = AppColors.cyanBg;
+      background = colors.secondaryContainer;
     }
 
     return Padding(
@@ -80,8 +81,8 @@ class AnswerOption extends StatelessWidget {
                       letter,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: borderColor == AppColors.border
-                            ? AppColors.text
+                        color: borderColor == colors.outline
+                            ? colors.onSurface
                             : Colors.white,
                       ),
                     ),
@@ -90,9 +91,9 @@ class AnswerOption extends StatelessWidget {
                   Expanded(
                     child: Text(
                       text,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.text,
+                        color: colors.onSurface,
                       ),
                     ),
                   ),
