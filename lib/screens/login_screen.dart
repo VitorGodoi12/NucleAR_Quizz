@@ -28,17 +28,25 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _submit() async {
-    if (_formKey.currentState!.validate()) {
-      final name = Validators.nameFromEmail(_emailController.text);
-      await AppProgress.instance.updateProfile(name: name);
-      if (!mounted) return;
-      // Home vira a primeira rota: o botão "voltar" não retorna ao login.
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen(userName: name)),
-        (route) => false,
+    final messenger = ScaffoldMessenger.of(context);
+    if (!_formKey.currentState!.validate()) {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Revise os campos destacados em vermelho.')),
       );
+      return;
     }
+    final name = Validators.nameFromEmail(_emailController.text);
+    await AppProgress.instance.updateProfile(name: name);
+    if (!mounted) return;
+    // Home vira a primeira rota: o botão "voltar" não retorna ao login.
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => HomeScreen(userName: name)),
+      (route) => false,
+    );
+    messenger.showSnackBar(
+      SnackBar(content: Text('Login realizado! Bem-vindo(a), $name.')),
+    );
   }
 
   @override

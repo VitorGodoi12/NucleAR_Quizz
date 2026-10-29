@@ -7,6 +7,13 @@ class Validators {
     return null;
   }
 
+  static String? name(String? value) {
+    final text = value?.trim() ?? '';
+    if (text.isEmpty) return 'Informe o nome.';
+    if (text.length < 2) return 'O nome deve ter pelo menos 2 caracteres.';
+    return null;
+  }
+
   static String? email(String? value) {
     final text = value?.trim() ?? '';
     if (text.isEmpty) return 'Informe o e-mail.';

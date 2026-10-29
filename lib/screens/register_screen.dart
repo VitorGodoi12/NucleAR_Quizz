@@ -33,7 +33,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _submit() async {
     // validate() roda todos os validators; se algum falhar, retorna false.
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Revise os campos destacados em vermelho.')),
+      );
+      return;
+    }
 
     final name = _nameController.text.trim();
     await showDialog<void>(
@@ -118,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'Nome',
                           Icons.person_outline_rounded,
                         ),
-                        validator: (v) => Validators.notEmpty(v, 'o nome'),
+                        validator: Validators.name,
                       ),
                       const SizedBox(height: AppSpacing.m),
                       TextFormField(
