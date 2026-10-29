@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
 import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
+import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 import 'package:nuclear_quizdefinitivo/widgets/section_title.dart';
@@ -175,11 +176,18 @@ class ResultScreen extends StatelessWidget {
                 ],
                 const SizedBox(height: AppSpacing.m),
                 ElevatedButton.icon(
-                  // Home é a primeira rota da pilha, então voltamos até ela.
-                  onPressed: () =>
-                      Navigator.popUntil(context, (route) => route.isFirst),
-                  icon: const Icon(Icons.home_rounded),
-                  label: const Text('Voltar às competições'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: competition.color,
+                  ),
+                  // Troca a rota: o botão "voltar" do novo quiz leva à Home.
+                  onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => QuizScreen(competition: competition),
+                    ),
+                  ),
+                  icon: const Icon(Icons.replay_rounded),
+                  label: const Text('Jogar novamente'),
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
@@ -194,6 +202,14 @@ class ResultScreen extends StatelessWidget {
                   },
                   icon: const Icon(Icons.leaderboard_rounded),
                   label: const Text('Ver placar'),
+                ),
+                const SizedBox(height: 4),
+                TextButton.icon(
+                  // Home é a primeira rota da pilha, então voltamos até ela.
+                  onPressed: () =>
+                      Navigator.popUntil(context, (route) => route.isFirst),
+                  icon: const Icon(Icons.home_rounded),
+                  label: const Text('Voltar ao início'),
                 ),
               ],
             ),

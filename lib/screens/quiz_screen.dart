@@ -59,6 +59,33 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  /// Pergunta antes de abandonar o quiz (evita perder a tentativa sem querer).
+  Future<void> _askExit() async {
+    final leave = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        icon: const Icon(
+          Icons.exit_to_app_rounded,
+          color: AppColors.error,
+          size: 40,
+        ),
+        title: const Text('Sair do quiz?'),
+        content: const Text('Sua pontuação desta tentativa será perdida.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Continuar jogando'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Sair'),
+          ),
+        ],
+      ),
+    );
+    if (leave == true && mounted) Navigator.pop(context);
+  }
+
   void _selectOption(int index) {
     if (_answered) return;
     setState(() => _selectedIndex = index);
@@ -122,12 +149,14 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       );
     } else {
+      // Reinicia o cronômetro ANTES do setState: assim a interface já mostra
+      // 30s na nova pergunta (antes exibia o tempo antigo por 1 segundo).
+      _startTimer();
       setState(() {
         _currentIndex++;
         _selectedIndex = null;
         _answered = false;
       });
-      _startTimer();
     }
   }
 
@@ -138,7 +167,12 @@ class _QuizScreenState extends State<QuizScreen> {
     final progress = (_currentIndex + (_answered ? 1 : 0)) / total;
     final lowTime = _secondsLeft <= 5 && !_answered;
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) _askExit();
+      },
+      child: Scaffold(
       appBar: AppBar(
         title: Text(competition.title),
         backgroundColor: competition.color,
@@ -315,6 +349,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
