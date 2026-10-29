@@ -403,7 +403,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  body,
+                  wasCorrect ? '$body\n\n${_question.explanation}' : body,
                   style: const TextStyle(color: AppColors.text, height: 1.35),
                 ),
               ],
