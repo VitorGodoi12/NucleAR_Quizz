@@ -88,8 +88,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
 
     // Reúne os participantes na pontuação do filtro atual e ordena.
     final ranking = <Participant>[
-      for (final p in mockParticipants)
-        Participant(name: p.name, avatar: p.avatar, score: p.scoreIn(_topicId)),
+      ...participantsFor(_topicId),
       Participant(
         name: userName,
         score: userScore,
