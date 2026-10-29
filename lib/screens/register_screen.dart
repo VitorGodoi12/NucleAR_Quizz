@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
 import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
@@ -189,3 +190,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
+
