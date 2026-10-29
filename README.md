@@ -40,7 +40,8 @@ A navegação usa `Navigator` (`push`, `pop`, `pushReplacement`, `pushAndRemoveU
 
 - **Navegação entre telas:** 9 telas conectadas, com avanço e retorno e passagem de parâmetros (`Competition`, `userName`, `WrongAnswer`).
 - **Protótipo visual funcional:** tema único (`lib/theme/app_theme.dart`) com cores, espaçamentos e componentes reutilizáveis; uso de `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`; dados mockados.
-- **Placar:** ranking geral ou por tema (filtro por chips), pódio com avatares, posição real do usuário, quanto falta para subir de posição e botão para jogar o quiz do tema.
+- **Conteúdo:** 4 temas com 6 perguntas cada (24 no total), todas com explicação, e textos de estudo na tela de cada tema cobrindo os assuntos do quiz.
+- **Placar:** ranking geral ou por tema (filtro por chips; cada quiz tem uma ordem diferente de participantes fictícios), pódio com avatares, posição real do usuário, quanto falta para subir de posição e botão para jogar o quiz do tema.
 - **Gerenciamento de estado:** `StatefulWidget` + `setState()` no quiz (cronômetro, resposta selecionada, pontuação), nas abas da Home, na escolha de avatar e na visibilidade da senha.
 - **Formulário e validação:** cadastro e login com `Form`, `GlobalKey<FormState>`, `TextFormField`, validadores (`lib/utils/validators.dart`) e resposta ao usuário por `SnackBar` e `AlertDialog`.
 
