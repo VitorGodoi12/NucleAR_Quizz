@@ -50,17 +50,24 @@ A navegação usa `Navigator` (`push`, `pop`, `pushReplacement`, `pushAndRemoveU
 - `shared_preferences` para persistência local
 - `flutter_test` para testes automatizados
 
-## Executar em Android
+## Executar pelo VS Code
 
-1. Instale o Flutter e configure o Android SDK.
-2. Inicie um emulador Android ou conecte um dispositivo físico com depuração USB.
-3. Na pasta deste projeto, execute:
+1. Instale o [Flutter SDK](https://docs.flutter.dev/get-started/install) e as extensões **Flutter** e **Dart** no VS Code.
+2. Abra a pasta do projeto no VS Code.
+3. Execute `flutter pub get) pelo terminal integrado.
+4. Selecione um dispositivo ou navegador na barra inferior e pressione **F5** (ou escolha **Run > Start Debugging**).
 
-```bash
+## Executar pelo CMD
+
+1. Abra o CMD na pasta do projeto.
+2. Baixe as dependências e inicie o aplicativo:
+
+```cmd
 flutter pub get
 flutter run
 ```
 
+Para conferir os dispositivos disponíveis, execute `flutter devices`. Para iniciar em um dispositivo específico, use `flutter run -d ID_DO_DISPOSITIVO`.
 ## Verificações
 
 ```bash
