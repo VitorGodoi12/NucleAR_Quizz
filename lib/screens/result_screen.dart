@@ -6,13 +6,14 @@ import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 import 'package:nuclear_quizdefinitivo/widgets/section_title.dart';
 
-/// Tela 5: resultado e aprendizado (explicações das respostas incorretas).
+/// Tela 7: resultado e aprendizado (explicações das respostas incorretas).
 class ResultScreen extends StatelessWidget {
   final Competition competition;
   final Competition? sourceCompetition;
   final int correctCount;
   final int score;
   final List<WrongAnswer> wrongAnswers;
+  final bool trainingMode;
 
   const ResultScreen({
     super.key,
@@ -21,6 +22,7 @@ class ResultScreen extends StatelessWidget {
     required this.score,
     required this.wrongAnswers,
     this.sourceCompetition,
+    this.trainingMode = false,
   });
 
   @override
@@ -188,7 +190,10 @@ class ResultScreen extends StatelessWidget {
                   onPressed: () => Navigator.pushReplacementNamed(
                     context,
                     AppRoutes.quiz,
-                    arguments: sourceCompetition ?? competition,
+                    arguments: QuizRouteArgs(
+                      competition: sourceCompetition ?? competition,
+                      trainingMode: trainingMode,
+                    ),
                   ),
                   icon: const Icon(Icons.replay_rounded),
                   label: Text('Jogar novamente'),

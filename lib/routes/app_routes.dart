@@ -40,6 +40,7 @@ abstract final class AppRoutes {
       score: args.score,
       wrongAnswers: args.wrongAnswers,
       sourceCompetition: args.sourceCompetition,
+      trainingMode: args.trainingMode,
     );
   }
 
@@ -81,6 +82,7 @@ class ResultRouteArgs {
     required this.score,
     required this.wrongAnswers,
     required this.sourceCompetition,
+    this.trainingMode = false,
   });
 
   final Competition competition;
@@ -88,6 +90,7 @@ class ResultRouteArgs {
   final int score;
   final List<WrongAnswer> wrongAnswers;
   final Competition sourceCompetition;
+  final bool trainingMode;
 }
 
 class QuizRouteArgs {

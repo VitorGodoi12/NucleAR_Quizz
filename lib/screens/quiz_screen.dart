@@ -10,7 +10,7 @@ import 'package:nuclear_quizdefinitivo/models/question.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/answer_option.dart';
 
-/// Tela 4: quiz. Usa StatefulWidget + setState() para atualizar a interface.
+/// Tela 6: quiz. Usa StatefulWidget + setState() para atualizar a interface.
 class QuizScreen extends StatefulWidget {
   final Competition competition;
   final bool trainingMode;
@@ -188,6 +188,7 @@ class _QuizScreenState extends State<QuizScreen> {
         arguments: ResultRouteArgs(
           competition: _sessionCompetition,
           sourceCompetition: widget.competition,
+          trainingMode: widget.trainingMode,
           correctCount: _correctCount,
           score: _score,
           wrongAnswers: List.unmodifiable(_wrongAnswers),
