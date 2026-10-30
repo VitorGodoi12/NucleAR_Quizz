@@ -6,7 +6,7 @@ import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/utils/validators.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
-/// Tela 2b: cadastro com validação (envio simulado).
+/// Tela 3: cadastro com validação (envio simulado).
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 

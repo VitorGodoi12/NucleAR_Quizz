@@ -8,7 +8,7 @@ import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/utils/validators.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
-/// Tela 2a: login (simulado, sem servidor).
+/// Tela 2: login (simulado, sem servidor).
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
