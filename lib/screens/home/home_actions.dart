@@ -2,9 +2,7 @@ part of '../home_screen.dart';
 
 mixin _HomeActions on _HomeScreenStateBase {
   void _openRandomQuiz() {
-    final competition = _competitions[Random().nextInt(
-      _competitions.length,
-    )];
+    final competition = _competitions[_randomIndex(_competitions.length)];
     Navigator.pushNamed(context, AppRoutes.quiz, arguments: competition);
   }
 
