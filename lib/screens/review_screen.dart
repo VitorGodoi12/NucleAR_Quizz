@@ -9,13 +9,13 @@ class ReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = context.watch<AppProgress>().reviewItems;
     return Scaffold(
-      appBar: AppBar(title: const Text('Revisar respostas')),
+      appBar: AppBar(title: Text('Revisar respostas')),
       body: items.isEmpty
-          ? const Center(child: Text('Nenhuma resposta para revisar.'))
+          ? Center(child: Text('Nenhuma resposta para revisar.'))
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: items.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final item = items[index];
                 final options = (item['options'] as List?) ?? const [];
@@ -26,20 +26,32 @@ class ReviewScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(item['text']?.toString() ?? '', style: Theme.of(context).textTheme.titleMedium),
+                        Text(
+                          item['text']?.toString() ?? '',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                         const SizedBox(height: 8),
                         if (answerIndex >= 0 && answerIndex < options.length)
-                          Text('Resposta: ${options[answerIndex]}', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w600)),
-                        if ((item['explanation']?.toString() ?? '').isNotEmpty) ...[
+                          Text(
+                            'Resposta: ${options[answerIndex]}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        if ((item['explanation']?.toString() ?? '')
+                            .isNotEmpty) ...[
                           const SizedBox(height: 8),
                           Text(item['explanation'].toString()),
                         ],
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton.icon(
-                            onPressed: () => context.read<AppProgress>().removeReviewItem(item),
+                            onPressed: () => context
+                                .read<AppProgress>()
+                                .removeReviewItem(item),
                             icon: const Icon(Icons.check_circle_outline),
-                            label: const Text('Concluir revisão'),
+                            label: Text('Concluir revisão'),
                           ),
                         ),
                       ],

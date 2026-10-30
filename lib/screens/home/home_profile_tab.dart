@@ -37,7 +37,9 @@ mixin _HomeProfileTab on _HomeScreenStateBase {
               const SizedBox(height: 4),
               Text(
                 'Explorador(a) NucleAR',
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 18),
               Row(
@@ -60,8 +62,7 @@ mixin _HomeProfileTab on _HomeScreenStateBase {
                   const SizedBox(width: 10),
                   Expanded(
                     child: _ProfileMetric(
-                      value:
-                          '${(_progress.accuracy * 100).round()}%',
+                      value: '${(_progress.accuracy * 100).round()}%',
                       label: 'Acertos',
                       icon: Icons.track_changes_rounded,
                     ),
@@ -123,7 +124,8 @@ mixin _HomeProfileTab on _HomeScreenStateBase {
                 label: Text('Entrar com outra conta'),
               ),
               TextButton.icon(
-                onPressed: () => Navigator.pushNamed(context, AppRoutes.register),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AppRoutes.register),
                 icon: const Icon(Icons.person_add_alt_1_rounded),
                 label: Text('Cadastrar nova conta'),
               ),
@@ -131,7 +133,10 @@ mixin _HomeProfileTab on _HomeScreenStateBase {
               Text(
                 'Nome, avatar e progresso são salvos localmente neste dispositivo.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 12),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
@@ -215,17 +220,20 @@ mixin _HomeProfileTab on _HomeScreenStateBase {
       builder: (dialogContext) => SimpleDialog(
         title: Text('Aparência do aplicativo'),
         children: [
-          for (final mode in ['Sistema', 'Claro', 'Escuro'])
-            RadioListTile<String>(
-              value: mode,
-              groupValue: _progress.themeMode,
-              title: Text(mode),
-              onChanged: (value) => Navigator.pop(dialogContext, value),
+          RadioGroup<String>(
+            groupValue: _progress.themeMode,
+            onChanged: (value) => Navigator.pop(dialogContext, value),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final mode in ['Sistema', 'Claro', 'Escuro'])
+                  RadioListTile<String>(value: mode, title: Text(mode)),
+              ],
             ),
+          ),
         ],
       ),
     );
     if (selected != null) await _progress.updateProfile(theme: selected);
   }
-
 }

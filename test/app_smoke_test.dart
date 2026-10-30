@@ -4,6 +4,8 @@ import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late CompetitionCatalog catalog;
   setUpAll(() async {
     catalog = await CompetitionCatalog.load();
@@ -32,9 +34,11 @@ void main() {
   test('cada quiz tem um ranking de participantes diferente e estável', () {
     List<String> order(String? topic) {
       final list = [...participantsFor(topic)]
-        ..sort((a, b) => b.score != a.score
-            ? b.score.compareTo(a.score)
-            : a.name.compareTo(b.name));
+        ..sort(
+          (a, b) => b.score != a.score
+              ? b.score.compareTo(a.score)
+              : a.name.compareTo(b.name),
+        );
       return list.map((p) => p.name).toList();
     }
 
@@ -55,7 +59,9 @@ void main() {
     () {
       expect(mockParticipants.length, greaterThanOrEqualTo(10));
       expect(
-        catalog.competitions.every((competition) => competition.resultsReleased),
+        catalog.competitions.every(
+          (competition) => competition.resultsReleased,
+        ),
         isTrue,
       );
     },

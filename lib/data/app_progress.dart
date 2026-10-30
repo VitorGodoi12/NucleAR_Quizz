@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
@@ -34,6 +33,7 @@ class AppProgress extends ChangeNotifier {
 
   double get accuracy =>
       questionsAnswered == 0 ? 0 : correctAnswers / questionsAnswered;
+
   /// Meta da missão diária (perguntas respondidas no dia).
   static const int dailyGoal = 10;
 

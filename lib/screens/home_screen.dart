@@ -47,10 +47,15 @@ abstract interface class _HomeHost {
 
 abstract class _HomeScreenStateBase extends State<HomeScreen>
     implements _HomeHost {
+  @override
   int _tab = 0;
+  @override
   late String _displayName;
+  @override
   late String _avatar;
+  @override
   AppProgress get _progress => context.read<AppProgress>();
+  @override
   List<Competition> get _competitions =>
       context.read<CompetitionCatalog>().competitions;
 }
