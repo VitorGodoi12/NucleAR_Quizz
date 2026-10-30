@@ -17,7 +17,7 @@ CTMSP / Amazul (Challenge FIAP 2026).
 
 ## Descrição resumida da solução
 
-O usuário se cadastra (ou entra), estuda um tema na aba **Aprender**, responde ao quiz (6 perguntas sorteadas por partida, com cronômetro de 40 s por pergunta e pontos em dobro para respostas dadas em até 35 s, ou em modo treino, sem cronômetro), recebe explicação nas respostas incorretas, acumula pontos, acompanha estatísticas, revisa questões erradas e compara sua pontuação no ranking. Login, cadastro e ranking são demonstrativos: a versão não possui backend nem sincroniza dados entre dispositivos (os dados ficam salvos localmente com `shared_preferences`).
+O usuário se cadastra (ou entra), estuda um tema na aba **Aprender**, responde ao quiz (6 perguntas sorteadas por partida, com cronômetro de 40 s por pergunta e pontos em dobro para respostas dadas em até 32 s, ou em modo treino, sem cronômetro), recebe explicação nas respostas incorretas, acumula pontos, acompanha estatísticas, revisa questões erradas e compara sua pontuação no ranking. Login, cadastro e ranking são demonstrativos: a versão não possui backend nem sincroniza dados entre dispositivos (os dados ficam salvos localmente com `shared_preferences`).
 
 ## Telas e navegação
 
