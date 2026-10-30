@@ -39,6 +39,8 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _exitPromptOpen = false;
   final List<WrongAnswer> _wrongAnswers = [];
   Timer? _timer;
+  // Mede o tempo real gasto na pergunta (o contador da tela só anda de 1 em 1 s).
+  final Stopwatch _answerClock = Stopwatch();
   final Random _random = Random();
   late Competition _sessionCompetition;
 
@@ -80,6 +82,9 @@ class _QuizScreenState extends State<QuizScreen> {
   void _startTimer() {
     _timer?.cancel();
     _secondsLeft = Competition.secondsPerQuestion;
+    _answerClock
+      ..reset()
+      ..start();
     if (widget.trainingMode) return;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_secondsLeft <= 1) {
@@ -137,15 +142,17 @@ class _QuizScreenState extends State<QuizScreen> {
   void _confirm({bool timeout = false}) {
     if (_answered) return;
     _timer?.cancel();
+    _answerClock.stop();
 
     final chosen = timeout ? null : _selectedIndex;
     final isCorrect = chosen == _question.correctIndex;
-    // O modo cronometrado dobra os pontos nos primeiros 35 segundos.
+    // O modo cronometrado dobra os pontos só se a resposta for confirmada
+    // dentro da janela (tempo real decorrido <= doublePointsWindowSeconds).
+    final answeredInTime =
+        _answerClock.elapsedMilliseconds <=
+        Competition.doublePointsWindowSeconds * 1000;
     final pointsEarned = isCorrect
-        ? (!widget.trainingMode &&
-                  _secondsLeft >=
-                      Competition.secondsPerQuestion -
-                          Competition.doublePointsWindowSeconds
+        ? (!widget.trainingMode && answeredInTime
               ? Competition.pointsPerCorrect * 2
               : Competition.pointsPerCorrect)
         : 0;

@@ -5,7 +5,7 @@ class Competition {
   static const int secondsPerQuestion = 40;
   static const int pointsPerCorrect = 10;
   static const int questionsPerMatch = 6;
-  static const int doublePointsWindowSeconds = 35;
+  static const int doublePointsWindowSeconds = 32;
 
   final String id;
   final String title;
