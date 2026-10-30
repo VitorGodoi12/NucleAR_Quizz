@@ -140,10 +140,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final chosen = timeout ? null : _selectedIndex;
     final isCorrect = chosen == _question.correctIndex;
-    // O modo cronometrado dobra os pontos nos primeiros 15 segundos.
+    // O modo cronometrado dobra os pontos nos primeiros 35 segundos.
     final pointsEarned = isCorrect
         ? (!widget.trainingMode &&
-                  _secondsLeft >
+                  _secondsLeft >=
                       Competition.secondsPerQuestion -
                           Competition.doublePointsWindowSeconds
               ? Competition.pointsPerCorrect * 2

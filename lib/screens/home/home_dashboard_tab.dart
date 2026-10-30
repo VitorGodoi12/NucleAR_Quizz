@@ -34,7 +34,10 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
                     label: 'perguntas',
                   ),
                   const SizedBox(width: 10),
-                  const _StatBox(value: '20s', label: 'por questão'),
+                  _StatBox(
+                    value: '${Competition.secondsPerQuestion}s',
+                    label: 'por questão',
+                  ),
                 ],
               ),
             ],
