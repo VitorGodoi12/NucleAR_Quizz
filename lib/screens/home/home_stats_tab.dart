@@ -88,7 +88,9 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
                   const SizedBox(height: 6),
                   Text(
                     'Pratique novamente as perguntas que você errou e releia as explicações.',
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   OutlinedButton.icon(
@@ -117,7 +119,10 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
                   children: [
                     Row(
                       children: [
-                        Icon(topic.icon, color: topic.color),
+                        Icon(
+                          topic.icon,
+                          color: accentOnSurface(context, topic.color),
+                        ),
                         const SizedBox(width: 9),
                         Expanded(
                           child: Text(
@@ -131,7 +136,7 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
                         Text(
                           '${_progress.topicCorrect[topic.id] ?? 0}/${_progress.topicAttempts[topic.id] ?? 0}',
                           style: TextStyle(
-                            color: topic.color,
+                            color: accentOnSurface(context, topic.color),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -141,19 +146,13 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: LinearProgressIndicator(
-                        value:
-                            (_progress.topicAttempts[topic.id] ??
-                                    0) ==
-                                0
+                        value: (_progress.topicAttempts[topic.id] ?? 0) == 0
                             ? 0
-                            : (_progress.topicCorrect[topic.id] ??
-                                      0) /
-                                  (_progress.topicAttempts[topic
-                                          .id] ??
-                                      1),
+                            : (_progress.topicCorrect[topic.id] ?? 0) /
+                                  (_progress.topicAttempts[topic.id] ?? 1),
                         minHeight: 8,
-                        backgroundColor: tintOf(topic.color),
-                        color: topic.color,
+                        backgroundColor: tintOf(context, topic.color),
+                        color: accentOnSurface(context, topic.color),
                       ),
                     ),
                   ],
@@ -169,7 +168,10 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
                 ),
                 child: Text(
                   'Suas estatísticas aparecerão aqui depois que você concluir seu primeiro quiz.',
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.4),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    height: 1.4,
+                  ),
                 ),
               ),
             const SizedBox(height: 10),
@@ -183,5 +185,4 @@ mixin _HomeStatsTab on _HomeScreenStateBase {
       },
     );
   }
-
 }

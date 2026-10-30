@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:nuclear_quizdefinitivo/data/app_progress.dart';
 import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
-import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/utils/validators.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
@@ -37,7 +35,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // validate() roda todos os validators; se algum falhar, retorna false.
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Revise os campos destacados em vermelho.')),
+        const SnackBar(
+          content: Text('Revise os campos destacados em vermelho.'),
+        ),
       );
       return;
     }
@@ -47,19 +47,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        icon: const Icon(
+        icon: Icon(
           Icons.check_circle_rounded,
-          color: AppColors.success,
+          color: semanticStatusColor(context, success: true),
           size: 48,
         ),
-        title: const Text('Cadastro realizado!'),
+        title: Text('Cadastro realizado!'),
         content: Text(
           'Olá, $name! Esta é uma conta demonstrativa: não há autenticação em servidor. Seu nome e progresso ficam salvos somente neste dispositivo.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Continuar'),
+            child: Text('Continuar'),
           ),
         ],
       ),
@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Criar conta')),
+      appBar: AppBar(title: Text('Criar conta')),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -117,7 +117,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _nameController,
                         textCapitalization: TextCapitalization.words,
-                        decoration: appInput(context, 'Nome',
+                        decoration: appInput(
+                          context,
+                          'Nome',
                           Icons.person_outline_rounded,
                         ),
                         validator: Validators.name,
@@ -126,14 +128,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: appInput(context, 'E-mail', Icons.email_outlined),
+                        decoration: appInput(
+                          context,
+                          'E-mail',
+                          Icons.email_outlined,
+                        ),
                         validator: Validators.email,
                       ),
                       const SizedBox(height: AppSpacing.m),
                       TextFormField(
                         controller: _passwordController,
                         obscureText: _hidePassword,
-                        decoration: appInput(context, 'Senha',
+                        decoration: appInput(
+                          context,
+                          'Senha',
                           Icons.lock_outline_rounded,
                           suffix: IconButton(
                             icon: Icon(
@@ -151,7 +159,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _confirmController,
                         obscureText: _hidePassword,
-                        decoration: appInput(context, 'Confirmar senha',
+                        decoration: appInput(
+                          context,
+                          'Confirmar senha',
                           Icons.lock_reset_rounded,
                         ),
                         validator: (v) {
@@ -167,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: AppSpacing.l),
                       ElevatedButton(
                         onPressed: _submit,
-                        child: const Text('Criar conta'),
+                        child: Text('Criar conta'),
                       ),
                     ],
                   ),
@@ -178,7 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, AppRoutes.login);
               },
-              child: const Text('Já tenho conta. Entrar'),
+              child: Text('Já tenho conta. Entrar'),
             ),
             const SizedBox(height: AppSpacing.m),
           ],
@@ -187,4 +197,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-

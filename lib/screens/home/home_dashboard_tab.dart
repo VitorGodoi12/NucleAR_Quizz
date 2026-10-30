@@ -76,7 +76,7 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
                           'Nível ${p.level}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.blue,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ],
@@ -84,7 +84,10 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
                     const SizedBox(height: 8),
                     Text(
                       'Missão diária: responda 10 perguntas para manter seu ritmo de aprendizado.',
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, height: 1.35),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        height: 1.35,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     LinearProgressIndicator(
@@ -160,12 +163,9 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.replay_circle_filled_rounded,
-                    label:
-                        'Revisar (${_progress.reviewItems.length})',
-                    color: AppColors.blue,
-                    onTap: _progress.reviewItems.isEmpty
-                        ? null
-                        : _openReview,
+                    label: 'Revisar (${_progress.reviewItems.length})',
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: _progress.reviewItems.isEmpty ? null : _openReview,
                   ),
                 ),
               ],
@@ -186,7 +186,11 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
               for (final competition in _competitions)
                 _TopicPreviewCard(
                   competition: competition,
-                  onTap: () => Navigator.pushNamed(context, AppRoutes.topic, arguments: competition),
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.topic,
+                    arguments: competition,
+                  ),
                 ),
               const SizedBox(height: 8),
               Container(
@@ -198,12 +202,18 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.lightbulb_rounded, color: AppColors.blue),
+                    Icon(
+                      Icons.lightbulb_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         'Dica: depois de estudar, abra a aba Quiz. Se errar uma questão, o app mostrará uma explicação para ajudar você a aprender.',
-                        style: TextStyle(height: 1.4, color: Theme.of(context).colorScheme.onSurface),
+                        style: TextStyle(
+                          height: 1.4,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                   ],
@@ -221,5 +231,4 @@ mixin _HomeDashboardTab on _HomeScreenStateBase {
       ],
     );
   }
-
 }

@@ -6,7 +6,6 @@ import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/data/mock_participants.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/participant.dart';
-import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
@@ -64,15 +63,25 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: ChoiceChip(
-        avatar: Icon(icon, size: 18, color: selected ? Colors.white : color),
+        avatar: Icon(
+          icon,
+          size: 18,
+          color: selected
+              ? Colors.white
+              : Theme.of(context).colorScheme.primary,
+        ),
         label: Text(label),
         selected: selected,
         showCheckmark: false,
         selectedColor: color,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        side: BorderSide(color: selected ? color : Theme.of(context).colorScheme.outline),
+        side: BorderSide(
+          color: selected ? color : Theme.of(context).colorScheme.outline,
+        ),
         labelStyle: TextStyle(
-          color: selected ? Colors.white : Theme.of(context).colorScheme.onSurface,
+          color: selected
+              ? Colors.white
+              : Theme.of(context).colorScheme.onSurface,
           fontWeight: FontWeight.w600,
         ),
         onSelected: (_) => onTap(),
@@ -96,22 +105,23 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         : progress.displayName.trim();
 
     // Reúne os participantes na pontuação do filtro atual e ordena.
-    final ranking = <Participant>[
-      ...participantsFor(_topicId),
-      Participant(
-        name: userName,
-        score: userScore,
-        isCurrentUser: true,
-        avatar: progress.avatar,
-      ),
-    ]..sort((a, b) {
-        final byScore = b.score.compareTo(a.score);
-        if (byScore != 0) return byScore;
-        if (a.isCurrentUser != b.isCurrentUser) {
-          return a.isCurrentUser ? -1 : 1;
-        }
-        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-      });
+    final ranking =
+        <Participant>[
+          ...participantsFor(_topicId),
+          Participant(
+            name: userName,
+            score: userScore,
+            isCurrentUser: true,
+            avatar: progress.avatar,
+          ),
+        ]..sort((a, b) {
+          final byScore = b.score.compareTo(a.score);
+          if (byScore != 0) return byScore;
+          if (a.isCurrentUser != b.isCurrentUser) {
+            return a.isCurrentUser ? -1 : 1;
+          }
+          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+        });
 
     final others = ranking.skip(3).toList();
     final userRank =
@@ -181,7 +191,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 context,
                 'Geral',
                 Icons.public_rounded,
-                AppColors.navy,
+                Theme.of(context).colorScheme.primary,
                 _topicId == null,
                 () => setState(() => _topicId = null),
               ),
@@ -217,9 +227,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.person_pin_circle_rounded,
-                          color: AppColors.blue,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 28,
                         ),
                         const SizedBox(width: 10),
@@ -227,7 +237,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           child: Text(
                             'Sua posição: $userRankº lugar • $userScore pontos',
                             style: TextStyle(
-                              color: AppColors.blue,
+                              color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -237,7 +247,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     const SizedBox(height: 6),
                     Text(
                       hint,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.35),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        height: 1.35,
+                      ),
                     ),
                     if (topic != null) ...[
                       const SizedBox(height: 12),
@@ -246,7 +259,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           backgroundColor: topic.color,
                           minimumSize: const Size.fromHeight(46),
                         ),
-                        onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: topic),
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          AppRoutes.quiz,
+                          arguments: topic,
+                        ),
                         icon: const Icon(Icons.play_arrow_rounded),
                         label: Text('Jogar este quiz'),
                       ),
@@ -260,12 +277,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   decoration: BoxDecoration(
                     color: others[i].isCurrentUser
                         ? Theme.of(context).colorScheme.secondaryContainer
-                        : Colors.white,
+                        : Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
                       color: others[i].isCurrentUser
                           ? AppColors.cyan
-                          : const Color(0xFFE4EAF1),
+                          : Theme.of(context).colorScheme.outlineVariant,
                     ),
                   ),
                   child: ListTile(
@@ -277,15 +294,19 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           child: Text(
                             '${i + 4}º',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                         CircleAvatar(
                           backgroundColor: others[i].isCurrentUser
-                              ? AppColors.blue
-                              : Theme.of(context).colorScheme.secondaryContainer,
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
                           child: Text(
                             others[i].avatar,
                             style: TextStyle(fontSize: 19),
@@ -306,7 +327,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       '${others[i].score} pts',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.blue,
+                        color: Theme.of(context).colorScheme.primary,
                         fontSize: 16,
                       ),
                     ),

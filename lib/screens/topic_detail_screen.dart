@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
-import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
@@ -255,19 +254,23 @@ class TopicDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: tintOf(color),
+                    color: tintOf(context, color),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: color.withAlpha(35)),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.menu_book_rounded, color: color, size: 24),
+                      Icon(
+                        Icons.menu_book_rounded,
+                        color: accentOnSurface(context, color),
+                        size: 24,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           '${_learningSections.length} partes para estudar • cerca de 4–6 minutos de leitura',
                           style: TextStyle(
-                            color: color,
+                            color: accentOnSurface(context, color),
                             fontWeight: FontWeight.w700,
                             fontSize: 13,
                           ),
@@ -298,7 +301,7 @@ class TopicDetailScreen extends StatelessWidget {
                               ),
                               child: Icon(
                                 _learningSections[i].icon,
-                                color: color,
+                                color: accentOnSurface(context, color),
                                 size: 23,
                               ),
                             ),
@@ -309,7 +312,9 @@ class TopicDetailScreen extends StatelessWidget {
                                 child: Text(
                                   '${i + 1}. ${_learningSections[i].title}',
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface,
                                     fontSize: 17,
                                     height: 1.3,
                                     fontWeight: FontWeight.w800,
@@ -334,16 +339,18 @@ class TopicDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(17),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF0F7FC),
+                    color: Theme.of(context).colorScheme.surfaceContainerHigh,
                     borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: const Color(0xFFD6E8F4)),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
                         Icons.lightbulb_outline_rounded,
-                        color: AppColors.blue,
+                        color: Theme.of(context).colorScheme.primary,
                         size: 25,
                       ),
                       SizedBox(width: 11),
@@ -354,7 +361,7 @@ class TopicDetailScreen extends StatelessWidget {
                             Text(
                               'Antes de começar o quiz',
                               style: TextStyle(
-                                color: AppColors.navy,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 16,
                               ),
@@ -377,14 +384,18 @@ class TopicDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    color: tintOf(color),
+                    color: tintOf(context, color),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: color.withAlpha(55)),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.lightbulb_rounded, color: color, size: 27),
+                      Icon(
+                        Icons.lightbulb_rounded,
+                        color: accentOnSurface(context, color),
+                        size: 27,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -393,7 +404,7 @@ class TopicDetailScreen extends StatelessWidget {
                             Text(
                               'Você sabia?',
                               style: TextStyle(
-                                color: color,
+                                color: accentOnSurface(context, color),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -417,14 +428,18 @@ class TopicDetailScreen extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.navy,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       padding: const EdgeInsets.symmetric(vertical: 17),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    onPressed: () => Navigator.pushNamed(context, AppRoutes.quiz, arguments: competition),
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      AppRoutes.quiz,
+                      arguments: competition,
+                    ),
                     icon: const Icon(Icons.play_arrow_rounded),
                     label: Text(
                       'Li o conteúdo — iniciar quiz',
@@ -440,7 +455,10 @@ class TopicDetailScreen extends StatelessWidget {
                   child: Text(
                     'Responda no seu ritmo e aprenda com as explicações.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 12),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ],
@@ -531,7 +549,11 @@ class _TopicIllustration extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [tintOf(color), color.withAlpha(45), const Color(0xFFF5F9FD)],
+          colors: [
+            tintOf(context, color),
+            color.withAlpha(45),
+            Theme.of(context).colorScheme.surfaceContainerLow,
+          ],
         ),
         borderRadius: BorderRadius.circular(26),
         border: Border.all(color: color.withAlpha(35)),
@@ -572,7 +594,11 @@ class _TopicIllustration extends StatelessWidget {
                 color: Colors.white.withAlpha(220),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(leftIcon, color: color, size: 23),
+              child: Icon(
+                leftIcon,
+                color: accentOnSurface(context, color),
+                size: 23,
+              ),
             ),
           ),
           Positioned(
@@ -585,7 +611,11 @@ class _TopicIllustration extends StatelessWidget {
                 color: Colors.white.withAlpha(220),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(rightIcon, color: color, size: 23),
+              child: Icon(
+                rightIcon,
+                color: accentOnSurface(context, color),
+                size: 23,
+              ),
             ),
           ),
           Center(
@@ -604,7 +634,11 @@ class _TopicIllustration extends StatelessWidget {
                 ],
                 border: Border.all(color: Colors.white, width: 4),
               ),
-              child: Icon(mainIcon, color: color, size: 56),
+              child: Icon(
+                mainIcon,
+                color: accentOnSurface(context, color),
+                size: 56,
+              ),
             ),
           ),
           Positioned(
@@ -619,7 +653,7 @@ class _TopicIllustration extends StatelessWidget {
               child: Text(
                 eyebrow,
                 style: TextStyle(
-                  color: color,
+                  color: accentOnSurface(context, color),
                   fontSize: 10,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.1,

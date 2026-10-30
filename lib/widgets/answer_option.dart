@@ -28,11 +28,11 @@ class AnswerOption extends StatelessWidget {
     IconData? trailing;
 
     if (showCorrect) {
-      borderColor = AppColors.success;
+      borderColor = semanticStatusColor(context, success: true);
       background = AppColors.success.withValues(alpha: 0.18);
       trailing = Icons.check_circle_rounded;
     } else if (showWrong) {
-      borderColor = AppColors.error;
+      borderColor = semanticStatusColor(context, success: false);
       background = AppColors.error.withValues(alpha: 0.18);
       trailing = Icons.cancel_rounded;
     } else if (selected) {
@@ -91,10 +91,7 @@ class AnswerOption extends StatelessWidget {
                   Expanded(
                     child: Text(
                       text,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: colors.onSurface,
-                      ),
+                      style: TextStyle(fontSize: 16, color: colors.onSurface),
                     ),
                   ),
                   AnimatedSwitcher(

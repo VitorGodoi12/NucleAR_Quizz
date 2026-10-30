@@ -90,8 +90,8 @@ class CompetitionCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: lastScore == null
-                        ? AppColors.background
-                        : tintOf(color),
+                        ? Theme.of(context).colorScheme.surfaceContainerHigh
+                        : tintOf(context, color),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: lastScore == null
@@ -101,7 +101,11 @@ class CompetitionCard extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.history_rounded, color: color, size: 20),
+                      Icon(
+                        Icons.history_rounded,
+                        color: accentOnSurface(context, color),
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Column(
@@ -121,7 +125,7 @@ class CompetitionCard extends StatelessWidget {
                                 'Seu recorde: $bestScore pts',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: color,
+                                  color: accentOnSurface(context, color),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -129,7 +133,10 @@ class CompetitionCard extends StatelessWidget {
                         ),
                       ),
                       if (lastScore != null)
-                        Icon(Icons.check_circle_rounded, color: color),
+                        Icon(
+                          Icons.check_circle_rounded,
+                          color: accentOnSurface(context, color),
+                        ),
                     ],
                   ),
                 ),
@@ -138,13 +145,17 @@ class CompetitionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: tintOf(color),
+                    color: tintOf(context, color),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.lightbulb_rounded, color: color, size: 20),
+                      Icon(
+                        Icons.lightbulb_rounded,
+                        color: accentOnSurface(context, color),
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text.rich(
@@ -154,12 +165,16 @@ class CompetitionCard extends StatelessWidget {
                                 text: 'Você sabia? ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: color,
+                                  color: accentOnSurface(context, color),
                                 ),
                               ),
                               TextSpan(
                                 text: competition.curiosity,
-                                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface,
+                                ),
                               ),
                             ],
                           ),
@@ -199,7 +214,10 @@ class CompetitionCard extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(backgroundColor: color),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: color,
+                          foregroundColor: Colors.white,
+                        ),
                         onPressed: onParticipate,
                         icon: const Icon(Icons.play_arrow_rounded),
                         label: const Text('Participar'),
@@ -236,18 +254,21 @@ class _InfoPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: Theme.of(context).colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Theme.of(context).colorScheme.outline),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 15, color: AppColors.blue),
+          Icon(icon, size: 15, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 5),
           Text(
             label,
-            style: TextStyle(fontSize: 12.5, color: Theme.of(context).colorScheme.onSurface),
+            style: TextStyle(
+              fontSize: 12.5,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ],
       ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
-import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 import 'package:nuclear_quizdefinitivo/widgets/section_title.dart';
@@ -126,21 +124,21 @@ class ResultScreen extends StatelessWidget {
                       icon: Icons.star_rounded,
                       label: 'Pontos',
                       value: '$score',
-                      color: AppColors.blue,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     const SizedBox(width: 12),
                     _StatTile(
                       icon: Icons.check_circle_rounded,
                       label: 'Acertos',
                       value: '$correctCount',
-                      color: AppColors.success,
+                      color: semanticStatusColor(context, success: true),
                     ),
                     const SizedBox(width: 12),
                     _StatTile(
                       icon: Icons.cancel_rounded,
                       label: 'Erros',
                       value: '${wrongAnswers.length}',
-                      color: AppColors.error,
+                      color: semanticStatusColor(context, success: false),
                     ),
                   ],
                 ),
@@ -149,12 +147,15 @@ class ResultScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(AppSpacing.m),
                     decoration: BoxDecoration(
-                      color: AppColors.successBg,
+                      color: tintOf(context, AppColors.success),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.verified_rounded, color: AppColors.success),
+                        Icon(
+                          Icons.verified_rounded,
+                          color: semanticStatusColor(context, success: true),
+                        ),
                         SizedBox(width: 10),
                         Expanded(
                           child: Text(
@@ -181,16 +182,25 @@ class ResultScreen extends StatelessWidget {
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: competition.color,
+                    foregroundColor: Colors.white,
                   ),
                   // Troca a rota: o botão "voltar" do novo quiz leva à Home.
-                  onPressed: () => Navigator.pushReplacementNamed(context, AppRoutes.quiz, arguments: sourceCompetition ?? competition),
+                  onPressed: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.quiz,
+                    arguments: sourceCompetition ?? competition,
+                  ),
                   icon: const Icon(Icons.replay_rounded),
                   label: Text('Jogar novamente'),
                 ),
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.leaderboard, arguments: LeaderboardRouteArgs(competition: competition));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.leaderboard,
+                      arguments: LeaderboardRouteArgs(competition: competition),
+                    );
                   },
                   icon: const Icon(Icons.leaderboard_rounded),
                   label: Text('Ver placar'),
@@ -236,7 +246,7 @@ class _StatTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: tintOf(color),
+                color: tintOf(context, color),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 22),
@@ -252,7 +262,10 @@ class _StatTile extends StatelessWidget {
             ),
             Text(
               label,
-              style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 13),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 13,
+              ),
             ),
           ],
         ),
@@ -294,14 +307,14 @@ class _WrongAnswerCard extends StatelessWidget {
           const SizedBox(height: 12),
           _AnswerLine(
             icon: Icons.cancel_rounded,
-            color: AppColors.error,
+            color: semanticStatusColor(context, success: false),
             label: 'Sua resposta',
             text: chosenText,
           ),
           const SizedBox(height: 6),
           _AnswerLine(
             icon: Icons.check_circle_rounded,
-            color: AppColors.success,
+            color: semanticStatusColor(context, success: true),
             label: 'Resposta correta',
             text: question.options[question.correctIndex],
           ),
@@ -309,7 +322,7 @@ class _WrongAnswerCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: tintOf(color),
+              color: tintOf(context, color),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
@@ -320,7 +333,10 @@ class _WrongAnswerCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     question.explanation,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface, height: 1.45),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      height: 1.45,
+                    ),
                   ),
                 ),
               ],
@@ -362,7 +378,9 @@ class _AnswerLine extends StatelessWidget {
                 ),
                 TextSpan(
                   text: text,
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ],
             ),

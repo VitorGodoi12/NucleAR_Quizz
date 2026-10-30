@@ -1,4 +1,6 @@
-import 'dart:math';
+// ignore_for_file: unused_element
+
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ part 'home/home_stats_tab.dart';
 part 'home/home_profile_tab.dart';
 part 'home/home_actions.dart';
 
+int _randomIndex(int max) => math.Random().nextInt(max);
 
 /// Área principal com navegação inferior: Início, Aprender, Quiz, Estatísticas e Perfil.
 class HomeScreen extends StatefulWidget {
@@ -60,7 +63,6 @@ class _HomeScreenState extends _HomeScreenStateBase
         _HomeStatsTab,
         _HomeProfileTab,
         _HomeActions {
-
   @override
   void initState() {
     super.initState();
@@ -190,7 +192,9 @@ class _QuickAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final enabled = onTap != null;
-    final tone = enabled ? color : Theme.of(context).colorScheme.onSurfaceVariant;
+    final tone = enabled
+        ? accentOnSurface(context, color)
+        : Theme.of(context).colorScheme.onSurfaceVariant;
     return Container(
       decoration: appCardDecoration(context: context),
       child: Material(
@@ -206,7 +210,7 @@ class _QuickAction extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: tintOf(tone),
+                    color: tintOf(context, tone),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(icon, color: tone, size: 24),
@@ -220,7 +224,9 @@ class _QuickAction extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: enabled ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: enabled
+                        ? Theme.of(context).colorScheme.onSurface
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -245,7 +251,9 @@ class _AchievementChip extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
     decoration: BoxDecoration(
-      color: unlocked ? Theme.of(context).colorScheme.secondaryContainer : AppColors.background,
+      color: unlocked
+          ? Theme.of(context).colorScheme.secondaryContainer
+          : Theme.of(context).colorScheme.surfaceContainerHigh,
       borderRadius: BorderRadius.circular(30),
       border: Border.all(
         color: unlocked
@@ -259,21 +267,31 @@ class _AchievementChip extends StatelessWidget {
         Icon(
           icon,
           size: 16,
-          color: unlocked ? AppColors.blue : Theme.of(context).colorScheme.onSurfaceVariant,
+          color: unlocked
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurfaceVariant,
         ),
         const SizedBox(width: 5),
         Text(
           label,
           style: TextStyle(
             fontSize: 12,
-            color: unlocked ? AppColors.blue : Theme.of(context).colorScheme.onSurfaceVariant,
+            color: unlocked
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
             fontWeight: FontWeight.w600,
           ),
         ),
         if (unlocked)
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 4),
-            child: Icon(Icons.check_circle, size: 13, color: AppColors.success),
+            child: Icon(
+              Icons.check_circle,
+              size: 13,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF72D99A)
+                  : AppColors.success,
+            ),
           ),
       ],
     ),
@@ -292,24 +310,27 @@ class _ProfileMetric extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
     decoration: BoxDecoration(
-      color: AppColors.background,
+      color: Theme.of(context).colorScheme.surfaceContainerHigh,
       borderRadius: BorderRadius.circular(16),
     ),
     child: Column(
       children: [
-        Icon(icon, color: AppColors.cyan, size: 22),
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 22),
         const SizedBox(height: 6),
         Text(
           value,
           style: TextStyle(
             fontSize: 19,
             fontWeight: FontWeight.w800,
-            color: AppColors.navy,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         Text(
           label,
-          style: TextStyle(fontSize: 11, color: Theme.of(context).colorScheme.onSurfaceVariant),
+          style: TextStyle(
+            fontSize: 11,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     ),
@@ -339,10 +360,7 @@ class _StatBox extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(fontSize: 12, color: Color(0xFFCFE0F0)),
-          ),
+          Text(label, style: TextStyle(fontSize: 12, color: Color(0xFFCFE0F0))),
         ],
       ),
     ),
@@ -372,12 +390,12 @@ class _TopicPreviewCard extends StatelessWidget {
                 width: 54,
                 height: 54,
                 decoration: BoxDecoration(
-                  color: tintOf(competition.color),
+                  color: tintOf(context, competition.color),
                   borderRadius: BorderRadius.circular(17),
                 ),
                 child: Icon(
                   competition.icon,
-                  color: competition.color,
+                  color: accentOnSurface(context, competition.color),
                   size: 28,
                 ),
               ),
@@ -408,7 +426,7 @@ class _TopicPreviewCard extends StatelessWidget {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 17,
-                color: competition.color,
+                color: accentOnSurface(context, competition.color),
               ),
             ],
           ),
