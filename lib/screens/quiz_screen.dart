@@ -35,6 +35,8 @@ class _QuizScreenState extends State<QuizScreen> {
   int _pointsEarnedForCurrent = 0;
   int _secondsLeft = Competition.secondsPerQuestion;
   bool _isFinishing = false;
+  bool _allowPop = false;
+  bool _exitPromptOpen = false;
   final List<WrongAnswer> _wrongAnswers = [];
   Timer? _timer;
   final Random _random = Random();
@@ -90,29 +92,41 @@ class _QuizScreenState extends State<QuizScreen> {
 
   /// Pergunta antes de abandonar o quiz (evita perder a tentativa sem querer).
   Future<void> _askExit() async {
-    final leave = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        icon: Icon(
-          Icons.exit_to_app_rounded,
-          color: semanticStatusColor(context, success: false),
-          size: 40,
+    if (_exitPromptOpen || _allowPop) return;
+    _exitPromptOpen = true;
+    bool? leave;
+    try {
+      leave = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          icon: Icon(
+            Icons.exit_to_app_rounded,
+            color: semanticStatusColor(context, success: false),
+            size: 40,
+          ),
+          title: Text('Sair do quiz?'),
+          content: Text('Sua pontuação desta tentativa será perdida.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text('Continuar jogando'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text('Sair'),
+            ),
+          ],
         ),
-        title: Text('Sair do quiz?'),
-        content: Text('Sua pontuação desta tentativa será perdida.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text('Continuar jogando'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text('Sair'),
-          ),
-        ],
-      ),
-    );
-    if (leave == true && mounted) Navigator.pop(context);
+      );
+    } finally {
+      _exitPromptOpen = false;
+    }
+    if (leave != true || !mounted) return;
+
+    setState(() => _allowPop = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) Navigator.pop(context);
+    });
   }
 
   void _selectOption(int index) {
@@ -126,9 +140,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final chosen = timeout ? null : _selectedIndex;
     final isCorrect = chosen == _question.correctIndex;
-    // O modo cronometrado dá bônus nos primeiros cinco segundos.
+    // O modo cronometrado dobra os pontos nos primeiros 15 segundos.
     final pointsEarned = isCorrect
-        ? (!widget.trainingMode && _secondsLeft > 5
+        ? (!widget.trainingMode &&
+                  _secondsLeft >
+                      Competition.secondsPerQuestion -
+                          Competition.doublePointsWindowSeconds
               ? Competition.pointsPerCorrect * 2
               : Competition.pointsPerCorrect)
         : 0;
@@ -196,7 +213,7 @@ class _QuizScreenState extends State<QuizScreen> {
     final lowTime = !widget.trainingMode && _secondsLeft <= 5 && !_answered;
 
     return PopScope(
-      canPop: false,
+      canPop: _allowPop,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) _askExit();
       },
@@ -402,9 +419,11 @@ class _QuizScreenState extends State<QuizScreen> {
         ? 'Correto! +$_pointsEarnedForCurrent pontos${_pointsEarnedForCurrent > Competition.pointsPerCorrect ? ' — bônus de rapidez!' : ''}'
         : (timedOut ? 'Tempo esgotado!' : 'Resposta incorreta');
     final String body = wasCorrect
-        ? (_pointsEarnedForCurrent > Competition.pointsPerCorrect
-              ? 'Resposta rápida! Você acertou em até 25 segundos e dobrou os pontos desta pergunta.'
-              : 'Muito bem! Você ganhou os pontos-base. Respostas corretas nos primeiros 25 segundos valem o dobro.')
+        ? (widget.trainingMode
+              ? 'Muito bem! Você ganhou os pontos-base no modo treino.'
+              : _pointsEarnedForCurrent > Competition.pointsPerCorrect
+              ? 'Resposta rápida! Você acertou nos primeiros ${Competition.doublePointsWindowSeconds} segundos e dobrou os pontos desta pergunta.'
+              : 'Muito bem! Você ganhou os pontos-base. Responda nos primeiros ${Competition.doublePointsWindowSeconds} segundos para receber o dobro.')
         : 'Resposta certa: $correctText\n\n${_question.explanation}';
 
     return AnimatedContainer(
