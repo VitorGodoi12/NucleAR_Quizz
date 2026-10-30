@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/models/question.dart';
-import 'package:nuclear_quizdefinitivo/screens/home_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/leaderboard_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/quiz_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/result_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/review_screen.dart';
 import 'package:nuclear_quizdefinitivo/screens/topic_detail_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/welcome_screen.dart';
 
 abstract final class AppRoutes {
   static const welcome = '/welcome';

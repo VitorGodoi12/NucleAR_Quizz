@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nuclear_quizdefinitivo/routes/app_routes.dart';
-import 'package:nuclear_quizdefinitivo/screens/login_screen.dart';
-import 'package:nuclear_quizdefinitivo/screens/register_screen.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 
 /// Tela 1: boas-vindas.
@@ -122,6 +120,11 @@ class WelcomeScreen extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.cyan,
+                            foregroundColor: Colors.white,
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           onPressed: () {
                             Navigator.pushNamed(context, AppRoutes.login);
