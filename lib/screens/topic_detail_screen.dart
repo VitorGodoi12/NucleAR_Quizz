@@ -4,7 +4,7 @@ import 'package:nuclear_quizdefinitivo/models/competition.dart';
 import 'package:nuclear_quizdefinitivo/theme/app_theme.dart';
 import 'package:nuclear_quizdefinitivo/widgets/gradient_header.dart';
 
-/// Página dedicada a um tema, com introdução, explicação, curiosidade e acesso ao quiz.
+/// Tela 5: página dedicada a um tema, com introdução, explicação, curiosidade e acesso ao quiz.
 class TopicDetailScreen extends StatelessWidget {
   final Competition competition;
   const TopicDetailScreen({super.key, required this.competition});
@@ -217,11 +217,12 @@ class TopicDetailScreen extends StatelessWidget {
                     ),
                     _Pill(
                       icon: Icons.quiz_rounded,
-                      text: '${competition.questions.length} perguntas',
+                      text:
+                          '${competition.questions.length} perguntas · ${Competition.questionsPerMatch} por partida',
                     ),
                     const _Pill(
                       icon: Icons.timer_outlined,
-                      text: '30 s por pergunta',
+                      text: '${Competition.secondsPerQuestion} s por pergunta',
                     ),
                   ],
                 ),

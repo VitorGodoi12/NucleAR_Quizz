@@ -189,9 +189,9 @@ class CompetitionCard extends StatelessWidget {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    _InfoPill(
+                    const _InfoPill(
                       icon: Icons.quiz_rounded,
-                      label: '${competition.questions.length} perguntas',
+                      label: '${Competition.questionsPerMatch} perguntas por partida',
                     ),
                     const _InfoPill(
                       icon: Icons.timer_outlined,
